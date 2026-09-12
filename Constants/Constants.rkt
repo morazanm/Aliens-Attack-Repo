@@ -5,10 +5,7 @@
          "./E-Scene-Constants.rkt"
          "./CI-Constants.rkt")
 
-(provide
- ;;DUMMY TEST
- EIGHT ;;<-- REMOVE THIS
- 
+(provide 
  ;;Image Constants
  IMAGE-WIDTH
 
@@ -60,6 +57,8 @@
  
  MAX-IMG-Y
 
+ ROCKET-Y
+ 
  ;; CIs
  
  ;;Aliens
@@ -67,7 +66,11 @@
 
  ALIEN-IMG2
 
+ ;;Shots
+ SHOT-IMG
 
+ SHOT-IMG2
+ 
  ;;Rockets
  FUSELAGE
 
@@ -100,5 +103,3 @@
  ROCKET-IMG2
  
  )
-
-(define EIGHT 8)

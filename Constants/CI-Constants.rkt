@@ -6,14 +6,26 @@
 
 (provide (all-defined-out))
 
-
+;;ALIEN-CI
 ;; Sample expressions for mk-alien-img
 (define ALIEN-IMG (overlay (text "X" 25 ALIEN-COLOR) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR)))
 (define ALIEN-IMG2 (overlay (text "X" 25 ALIEN-COLOR2) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR2)))
 
+;;SHOT-CI
+;; Sample expressions for mk-shot-img
+(define SHOT-IMG (radial-star 8
+                              (/ IMAGE-WIDTH 8)
+                              (/ IMAGE-WIDTH 2)
+                              'solid
+                              SHOT-COLOR))
 
+(define SHOT-IMG2 (radial-star 8
+                               (/ IMAGE-WIDTH 8)
+                               (/ IMAGE-WIDTH 2)
+                               'solid
+                               SHOT-COLOR2))
 
-
+;;ROCKET-CI
 ;; Sample expressions for mk-fuselage-img
 (define FUSELAGE (circle (* 1/3 IMAGE-HEIGHT)
                          'solid
@@ -24,10 +36,10 @@
                           FUSELAGE2-COLOR))
 
 (define FUSELAGE-W (image-width FUSELAGE))
-(define FUSELAGE-H (image-width FUSELAGE))
+(define FUSELAGE-H (image-width FUSELAGE)) ;;COULD BE REMOVED?
 
-(define FUSELAGE2-W (image-width FUSELAGE2))
-(define FUSELAGE2-H (image-width FUSELAGE2))
+(define FUSELAGE2-W (image-width FUSELAGE2)) ;;COULD BE REMOVED?
+(define FUSELAGE2-H (image-width FUSELAGE2)) ;;COULD BE REMOVED?
 
 ;; Sample expressions for mk-window-img
 (define WINDOW  (ellipse 3 10 'solid WINDOW-COLOR))

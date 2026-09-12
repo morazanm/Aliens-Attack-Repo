@@ -2,7 +2,8 @@
 
 
 (require 2htdp/image
-         "../Constants/Image-Constants.rkt")
+         "../Constants/Image-Constants.rkt"
+         "../Constants/CI-Constants.rkt")
 
 (provide (all-defined-out))
 
@@ -20,8 +21,7 @@
 ;; color --> image
 ;; Purpose: Create single booster image
 (define (mk-single-booster-img a-color)
-  (let ([FUSELAGE-W (image-width (mk-fuselage-img 'blue))])
-    (rotate 180 (triangle (/ FUSELAGE-W 2) 'solid a-color))))
+  (rotate 180 (triangle (/ FUSELAGE-W 2) 'solid a-color)))
 
 ;; image --> image
 ;; Purpose: Create booster image
@@ -53,7 +53,3 @@
                (/ (image-width  a-rocket-main-img) 2)
                (* 0.7 (image-height a-rocket-main-img))
                a-rocket-main-img))
-
-
-
-

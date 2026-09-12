@@ -31,3 +31,6 @@
 (define MIN-IMG-Y 0)
 
 (define MAX-IMG-Y (sub1 MAX-CHARS-VERTICAL))
+
+;; Rocket Constants
+(define ROCKET-Y (sub1 MAX-CHARS-VERTICAL))
