@@ -8,8 +8,8 @@
 
 ;;ALIEN-CI
 ;; Sample expressions for mk-alien-img
-(define ALIEN-IMG (overlay (text "X" 25 ALIEN-COLOR) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR)))
-(define ALIEN-IMG2 (overlay (text "X" 25 ALIEN-COLOR2) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR2)))
+(define ALIEN-IMG (overlay (text "X" 20 ALIEN-COLOR) (circle (/ IMAGE-WIDTH 5) 'solid ALIEN-COLOR)))
+(define ALIEN-IMG2 (overlay (text "X" 20 ALIEN-COLOR2) (circle (/ IMAGE-WIDTH 5) 'solid ALIEN-COLOR2)))
 
 ;;SHOT-CI
 ;; Sample expressions for mk-shot-img

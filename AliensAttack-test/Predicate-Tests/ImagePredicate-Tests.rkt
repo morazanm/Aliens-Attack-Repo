@@ -25,31 +25,31 @@
 (check-equal? (ci? (rectangle 20 40 'solid 'blue)) NOT-CI2)
 
 ;; Tests using sample values for ci?
-(check-true (ci? (ellipse 10 22 'outline 'green))  #true)
+(check-pred ci? (ellipse 10 22 'outline 'green))
 
-(check-false (ci? (rectangle 5 33 'solid 'yellow)) #false)
+(check-false (ci? (rectangle 5 33 'solid 'yellow)))
 
 ;;Drawing Functions
 
 ;;Draw Alien
-(check-true (ci? ALIEN-IMG) #true)
+(check-pred ci? ALIEN-IMG)
 
-(check-true (ci? ALIEN-IMG2) #true)
+(check-pred ci? ALIEN-IMG2)
 
-(check-true (ci? (mk-alien-img 'purple)) #true)
+(check-pred ci? (mk-alien-img 'purple))
 
-(check-true (ci? (mk-alien-img 'lightbrown)) #true)
+(check-pred ci? (mk-alien-img 'lightbrown))
 
 ;;Draw Shot
-(check-true (ci? SHOT-IMG) #true)
+(check-pred ci? SHOT-IMG)
 
-(check-true (ci? SHOT-IMG2) #true)
+(check-pred ci? SHOT-IMG2)
 
-(check-true (ci? (mk-shot-img 'red)) #true)
+(check-pred ci? (mk-shot-img 'red))
 
-(check-true (ci? (mk-shot-img 'brown)) #true)
+(check-pred ci? (mk-shot-img 'brown))
 
 ;;Draw Rocket
-(check-true (ci? ROCKET-IMG)  #true)
+(check-pred ci? ROCKET-IMG)
 
-(check-true (ci? ROCKET-IMG2) #true)
+(check-pred ci? ROCKET-IMG2)

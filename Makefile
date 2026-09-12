@@ -5,7 +5,7 @@ install:
 .PHONY: install
 
 test:
-	@raco test -t -j 3 Tests Drawing-Tests Predicate-Tests ProcessTick-Tests ProcessKey-Tests
+	@raco test -t AliensAttack-test 
 .PHONY: test
 
 docs:
