@@ -1,0 +1,9 @@
+#lang racket/base
+
+(provide (all-defined-out))
+
+(define MAX-CHARS-HORIZONTAL 20)
+(define MAX-CHARS-VERTICAL 15)
+(define E-SCENE-W (* MAX-CHARS-HORIZONTAL IMAGE-WIDTH))
+(define E-SCENE-H (* MAX-CHARS-VERTICAL IMAGE-HEIGHT))
+(define E-SCENE-COLOR 'pink)
