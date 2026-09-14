@@ -1,63 +1,11 @@
 #lang racket/base
 
-(require "./Image-Constants.rkt"
-         "./Color-Constants.rkt"
-         "./E-Scene-Constants.rkt"
+(require "./E-Scene-Constants.rkt"
          "./CI-Constants.rkt")
 
 (provide 
- ;;Image Constants
- IMAGE-WIDTH
-
- IMAGE-HEIGHT
-
- ;;Color Constants
- SHOT-COLOR
-
- SHOT-COLOR2
- 
- ALIEN-COLOR
-
- ALIEN-COLOR2
-
- WINDOW-COLOR
-
- WINDOW2-COLOR   
-
- FUSELAGE-COLOR 
-
- FUSELAGE2-COLOR
-
- NACELLE-COLOR
-
- NACELLE2-COLOR
-
  ;;E-SCENE Constants
- MAX-CHARS-HORIZONTAL
-
- MAX-CHARS-VERTICAL
-
- E-SCENE-W
-
- E-SCENE-H
-
- E-SCENE-COLOR
-
  E-SCENE
-
- AN-IMG-X
-
- MIN-IMG-X
-
- MAX-IMG-X
-
- AN-IMG-Y
-
- MIN-IMG-Y
- 
- MAX-IMG-Y
-
- ROCKET-Y
  
  ;; CIs
  
@@ -72,32 +20,6 @@
  SHOT-IMG2
  
  ;;Rockets
- FUSELAGE
-
- FUSELAGE2
-
- FUSELAGE-W
-
- WINDOW
-
- WINDOW2
-
- SINGLE-BOOSTER
-
- SINGLE-BOOSTER2
-
- BOOSTER
-
- BOOSTER2
-
- ROCKET-MAIN
-
- ROCKET-MAIN2
-
- NACELLE
-
- NACELLE2
-
  ROCKET-IMG
 
  ROCKET-IMG2

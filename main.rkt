@@ -1,143 +1,53 @@
-#lang racket/base
+(module main racket
 
 
-(require "./Constants/Constants.rkt"
-         "./Drawing/Drawing-Functions.rkt"
-         "./Predicates/Predicates.rkt"
-         "./ProcessTick/ProcessTick-Functions.rkt"
-         "./ProcessKey/ProcessKey-Functions.rkt"
-         "./GameOver/GameOver-Functions.rkt")
+  (require "./Constants/Constants.rkt"
+           "./Drawing/Drawing-Functions.rkt"
+           "./Predicates/Predicates.rkt"
+           "./ProcessTick/ProcessTick-Functions.rkt"
+           "./ProcessKey/ProcessKey-Functions.rkt"
+           "./GameOver/GameOver-Functions.rkt")
 
-(provide
- ;;CONSTANTS
- ;;Image Constants
- IMAGE-WIDTH
+  (provide
+   ;;CONSTANTS
 
- IMAGE-HEIGHT
-
- ;;Color Constants
- SHOT-COLOR
-
- SHOT-COLOR2
+   ;;E-SCENE Constants
+   E-SCENE
  
- ALIEN-COLOR
-
- ALIEN-COLOR2
-
- WINDOW-COLOR
-
- WINDOW2-COLOR   
-
- FUSELAGE-COLOR 
-
- FUSELAGE2-COLOR
-
- NACELLE-COLOR
-
- NACELLE2-COLOR
-
- ;;E-SCENE Constants
- MAX-CHARS-HORIZONTAL
-
- MAX-CHARS-VERTICAL
-
- E-SCENE-W
-
- E-SCENE-H
-
- E-SCENE-COLOR
-
- E-SCENE
-
- AN-IMG-X
-
- MIN-IMG-X
-
- MAX-IMG-X
-
- AN-IMG-Y
-
- MIN-IMG-Y
+   ;; CIs
  
- MAX-IMG-Y
+   ;;Aliens
+   ALIEN-IMG
 
- ROCKET-Y
+   ALIEN-IMG2
+
+   ;;Shots
+   SHOT-IMG
+
+   SHOT-IMG2
  
- ;; CIs
+   ;;Rockets
+   ROCKET-IMG
+
+   ROCKET-IMG2
  
- ;;Aliens
- ALIEN-IMG
-
- ALIEN-IMG2
-
- ;;Shots
- SHOT-IMG
-
- SHOT-IMG2
+   ;;DRAWING FUNCTIONS
  
- ;;Rockets
- FUSELAGE
-
- FUSELAGE2
-
- FUSELAGE-W
-
- WINDOW
-
- WINDOW2
-
- SINGLE-BOOSTER
-
- SINGLE-BOOSTER2
-
- BOOSTER
-
- BOOSTER2
-
- ROCKET-MAIN
-
- ROCKET-MAIN2
-
- NACELLE
-
- NACELLE2
-
- ROCKET-IMG
-
- ROCKET-IMG2
+   ;;Alien Drawing Functions
  
- ;;DRAWING FUNCTIONS
+
+   ;;Shot Drawing Functions
  
- ;;Alien Drawing Functions
- mk-alien-img
 
- ;;Shot Drawing Functions
- mk-shot-img
+   ;;Rocket Drawing Functions
+ 
 
- ;;Rocket Drawing Functions
- mk-fuselage-img
+   ;;Scene Drawing Functions
+ 
 
- mk-window-img
+   ;;Predicates
 
- mk-single-booster-img
+   ci?
 
- mk-booster-img
-
- mk-rocket-main-img
-
- mk-nacelle-img
-
- mk-rocket-ci
-
- ;;Scene Drawing Functions
- image-x->pix-x
-
- image-y->pix-y
-
- draw-ci
-
- ;;Predicates
-
- ci?
-
- )
+   )
+  )

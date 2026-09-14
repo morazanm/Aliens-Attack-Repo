@@ -1,6 +1,11 @@
-# Back ups
+#Back ups
 *.bak
 *~
+
+#Other Files
+*.dep
+*.zo
+
 
 # Racket compiled files
 compiled/
