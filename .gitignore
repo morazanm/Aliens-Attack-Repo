@@ -1,0 +1,17 @@
+#Back ups
+*.bak
+*~
+
+#Other Files
+*.dep
+*.zo
+
+
+# Racket compiled files
+compiled/
+
+# scribble files
+scribblings/
+
+#html
+/Docs/*
