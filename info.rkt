@@ -1,4 +1,4 @@
 #lang info
 
 
-(define collection "APS/AliensAttack")
+(define collection "APS-Aliens-Attack")
