@@ -11,6 +11,14 @@ described in the textbook @italic{Animated Problem Solving}.
 @table-of-contents[]
 
 @section{Constants}
+@defidform[IMAGE-WIDTH]{The maximum width of the image is @bold{30} pixels.}
+
+@defidform[IMAGE-HEIGHT]{The maximum height of the image is @bold{30} pixels.}
+
+@defidform[MAX-CHARS-HORIZONTAL]{The maximum amount of character images that fit horizontally is @bold{20}.}
+
+@defidform[MAX-CHARS-VERTICAL]{The maximum amount of character images that fit vertically is @bold{15}.}
+
 @defidform[ALIEN-IMG]
 The default black alien image.
 @(linebreak)
@@ -42,17 +50,17 @@ The default orange and brown rocket image.
 @image[#:suffixes @list[".png"]]{scribImgs/rocket-img2}
 
 @section{Data Definitions}
-@defidform[ci]
-A ci is a character image which is at most 30 x 30 pixels.
+@defidform[ci]{
+A ci is a character image which is at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
 
-@defidform[image-x]
-An image-x is an integer in [0..19].
+@defidform[image-x]{
+An image-x is an integer in [0..(@racket[sub1] MAX-CHARS-HORIZONTAL)].}
 
-@defidform[image-y]
-An image-y is an integer in [0..14].
+@defidform[image-y]{
+An image-y is an integer in [0..(@racket[sub1] MAX-CHARS-VERTICAL)].}
 
 @defidform[scene]
-A scene is a 600 x 450 image.
+A scene is a (MAX-CHARS-HORIZONTAL * IMAGE-WIDTH) x (MAX-CHARS-VERTICAL * IMAGE-HEIGHT) image.
 
 @defidform[rocket]
 A rocket is an image-x.
@@ -64,7 +72,9 @@ A key is either:
 @(linebreak)
 2. @racket{left}
 @(linebreak)
-3. not @racket{right} or @racket{left}
+3. @racket{ }
+@(linebreak)
+4. not @racket{right} or @racket{left}
 
 
 @section{Draw-World Functions}
