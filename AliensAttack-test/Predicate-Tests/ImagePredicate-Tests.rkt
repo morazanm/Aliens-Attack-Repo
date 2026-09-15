@@ -3,8 +3,11 @@
 (require 2htdp/image
          rackunit
          "../../Predicates/Image-Predicates.rkt"
-         "../../Drawing/Drawing-Functions.rkt"
-         "../../Constants/Constants.rkt")
+         "../../Drawing/Alien-Drawing-Functions.rkt"
+         "../../Drawing/Shot-Drawing-Functions.rkt"
+         "../../Drawing/Rocket-Drawing-Functions.rkt"
+         "../../Constants/Constants.rkt"
+         "../../Constants/Image-Constants.rkt")
 
 
 ;; Sample expressions for ci?
