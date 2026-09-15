@@ -8,10 +8,8 @@
 
 
 # Racket compiled files
-compiled/
+*/compiled/
 
 # scribble files
 scribblings/
 
-#html
-/Docs/*
