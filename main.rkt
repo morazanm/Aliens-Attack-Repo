@@ -1,7 +1,7 @@
-(module main racket
+#lang racket/base
 
 
-  (require "./Constants/Constants.rkt"
+(require "./Constants/Constants.rkt"
            "./Drawing/Drawing-Functions.rkt"
            "./Predicates/Predicates.rkt"
            "./ProcessTick/ProcessTick-Functions.rkt"
@@ -50,4 +50,3 @@
    ci?
 
    )
-  )
