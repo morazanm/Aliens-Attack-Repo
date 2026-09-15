@@ -10,10 +10,7 @@
 
   (provide
    ;;CONSTANTS
-
-   ;;E-SCENE Constants
-   E-SCENE
- 
+   
    ;; CIs
  
    ;;Aliens
@@ -32,7 +29,7 @@
    ROCKET-IMG2
  
    ;;DRAWING FUNCTIONS
- 
+
    ;;Alien Drawing Functions
  
 
@@ -40,11 +37,21 @@
  
 
    ;;Rocket Drawing Functions
+   draw-rocket ;;default
+
+   draw-rocket-img ;;custom image
  
 
    ;;Scene Drawing Functions
- 
+   draw-ci 
 
+   ;;PROCESS-KEY FUNCTIONS
+   
+   ;;Rocket Move functions
+   move-rckt-right
+
+   move-rckt-left
+   
    ;;Predicates
 
    ci?

@@ -1,12 +1,10 @@
 #lang racket/base
 
 (require "./E-Scene-Constants.rkt"
+         "./Image-Constants.rkt"
          "./CI-Constants.rkt")
 
-(provide 
- ;;E-SCENE Constants
- E-SCENE
- 
+(provide  
  ;; CIs
  
  ;;Aliens
