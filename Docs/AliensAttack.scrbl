@@ -49,9 +49,15 @@ The default orange and brown rocket image.
 @(linebreak)
 @image[#:suffixes @list[".png"]]{scribImgs/rocket-img2}
 
+@defidform[E-SCENE]
+An empty pink scene.
+
+@defidform[E-SCENE2]
+An empty black scene.
+
 @section{Data Definitions}
 @defidform[ci]{
-A ci is a character image which is at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
+A ci is a character image has dimensions which are at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
 
 @defidform[image-x]{
 An image-x is an integer in [0..(@racket[sub1] MAX-CHARS-HORIZONTAL)].}
@@ -74,7 +80,7 @@ A key is either:
 @(linebreak)
 3. @racket{ }
 @(linebreak)
-4. not @racket{right} or @racket{left}
+4. Not @racket{right}, @racket{left}, or @racket{ }.
 
 
 @section{Draw-World Functions}

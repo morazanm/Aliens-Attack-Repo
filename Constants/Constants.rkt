@@ -6,7 +6,9 @@
 
 (provide  
  ;; CIs
- 
+ E-SCENE
+
+ E-SCENE2
  ;;Aliens
  ALIEN-IMG
 

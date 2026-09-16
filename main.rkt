@@ -10,7 +10,9 @@
 
   (provide
    ;;CONSTANTS
-   
+   E-SCENE
+
+   E-SCENE2
    ;; CIs
  
    ;;Aliens
