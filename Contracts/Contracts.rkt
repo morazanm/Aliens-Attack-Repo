@@ -27,8 +27,10 @@
                            (raise-blame-error
                             blame
                             val
-                            "function expects a ci as input, given ~a"
-                            "image"))))))))
+                            (if (image? val)
+                                (begin 
+                                "function expects a ci as input, given ~a" "image")
+                                "function expects a ci as input, given")))))))))
 
 ;; contract
 ;; Purpose: Determine if the input is an image
@@ -42,7 +44,9 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            "expects an image as input, given"))))))))
+                            (if (image? val)
+                                (begin "expects an image as input, given ~a" "image")
+                                "expects an image as input, given")))))))))
 
 #|
  An image-x is an integer in [0..(sub1 MAX-CHARS-HORIZONTAL)]
@@ -99,8 +103,10 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            "expects an image-x as input, given"
-                            "image"))))))))
+                            (if (image? val)
+                                (begin "expects an image-x as input, given ~a"
+                                       "image")
+                                "expects an image-x as input, given")))))))))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
@@ -114,8 +120,10 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            "expects an image-y as input, given"
-                            "image"))))))))
+                           (if (image? val)
+                                (begin "expects an image-y as input, given ~a"
+                                       "image")
+                                "expects an image-y as input, given")))))))))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
@@ -129,8 +137,10 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            "expects an pixel-y as input, given"
-                            "image"))))))))
+                            (if (image? val)
+                                (begin "expects an pixel-y as input, given ~a"
+                                       "image")
+                                "expects an pixel-y as input, given")))))))))
 
 
 ;; contract
@@ -145,8 +155,10 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            "expects an pixel-x as input, given"
-                            "image"))))))))
+                            (if (image? val)
+                                (begin "expects an pixel-x as input, given ~a"
+                                       "image")
+                                "expects an pixel-x as input, given")))))))))
 
 
 
