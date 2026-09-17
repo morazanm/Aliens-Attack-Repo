@@ -1,6 +1,8 @@
 #lang scribble/manual
 
-@(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
+@(require (for-label #;"../Constants/E-Scene-Constants.rkt"
+                     #;"../Constants/Image-Constants.rkt"
+                     APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
@@ -11,6 +13,14 @@ described in the textbook @italic{Animated Problem Solving}.
 @table-of-contents[]
 
 @section{Data Definitions}
+@defidform[IMAGE-WIDTH]{The maximum width of the image is @bold{30} pixels.}
+
+@defidform[IMAGE-HEIGHT]{The maximum height of the image is @bold{30} pixels.}
+
+@defidform[MAX-CHARS-HORIZONTAL]{The maximum amount of character images that fit horizontally is @bold{20}.}
+
+@defidform[MAX-CHARS-VERTICAL]{The maximum amount of character images that fit vertically is @bold{15}.}
+
 @defidform[ci]{
 A ci is a character image has dimensions which are at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
 
@@ -38,14 +48,6 @@ A key is either:
 4. Not @racket{right}, @racket{left}, or @racket{ }.
 
 @section{Constants}
-@defidform[IMAGE-WIDTH]{The maximum width of the image is @bold{30} pixels.}
-
-@defidform[IMAGE-HEIGHT]{The maximum height of the image is @bold{30} pixels.}
-
-@defidform[MAX-CHARS-HORIZONTAL]{The maximum amount of character images that fit horizontally is @bold{20}.}
-
-@defidform[MAX-CHARS-VERTICAL]{The maximum amount of character images that fit vertically is @bold{15}.}
-
 @defidform[ALIEN-IMG]
 The default black alien image.
 @(linebreak)
