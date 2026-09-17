@@ -10,6 +10,33 @@ described in the textbook @italic{Animated Problem Solving}.
 
 @table-of-contents[]
 
+@section{Data Definitions}
+@defidform[ci]{
+A ci is a character image has dimensions which are at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
+
+@defidform[image-x]{
+An image-x is an integer in [0..(@racket[sub1] MAX-CHARS-HORIZONTAL)].}
+
+@defidform[image-y]{
+An image-y is an integer in [0..(@racket[sub1] MAX-CHARS-VERTICAL)].}
+
+@defidform[scene]
+A scene is a (MAX-CHARS-HORIZONTAL * IMAGE-WIDTH) x (MAX-CHARS-VERTICAL * IMAGE-HEIGHT) image.
+
+@defidform[rocket]
+A rocket is an image-x.
+
+@defidform[key]
+A key is either:
+@(linebreak)
+1. @racket{right}
+@(linebreak)
+2. @racket{left}
+@(linebreak)
+3. @racket{ }
+@(linebreak)
+4. Not @racket{right}, @racket{left}, or @racket{ }.
+
 @section{Constants}
 @defidform[IMAGE-WIDTH]{The maximum width of the image is @bold{30} pixels.}
 
@@ -54,34 +81,6 @@ An empty pink scene.
 
 @defidform[E-SCENE2]
 An empty black scene.
-
-@section{Data Definitions}
-@defidform[ci]{
-A ci is a character image has dimensions which are at most IMAGE-WIDTH x IMAGE-HEIGHT pixels.}
-
-@defidform[image-x]{
-An image-x is an integer in [0..(@racket[sub1] MAX-CHARS-HORIZONTAL)].}
-
-@defidform[image-y]{
-An image-y is an integer in [0..(@racket[sub1] MAX-CHARS-VERTICAL)].}
-
-@defidform[scene]
-A scene is a (MAX-CHARS-HORIZONTAL * IMAGE-WIDTH) x (MAX-CHARS-VERTICAL * IMAGE-HEIGHT) image.
-
-@defidform[rocket]
-A rocket is an image-x.
-
-@defidform[key]
-A key is either:
-@(linebreak)
-1. @racket{right}
-@(linebreak)
-2. @racket{left}
-@(linebreak)
-3. @racket{ }
-@(linebreak)
-4. Not @racket{right}, @racket{left}, or @racket{ }.
-
 
 @section{Draw-World Functions}
 
