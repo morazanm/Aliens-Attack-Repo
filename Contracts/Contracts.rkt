@@ -4,10 +4,10 @@
          2htdp/image
          "../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
+         "../Constants/Image-Constants.rkt"
          "../Drawing/Scene-Drawing-Functions.rkt")
 
-(define IMAGE-WIDTH 30)
-(define IMAGE-HEIGHT 30)
+
 
 (define (format-error blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
@@ -28,8 +28,7 @@
                             blame
                             val
                             (if (image? val)
-                                (begin 
-                                "function expects a ci as input, given ~a" "image")
+                                (begin "function expects a ci as input, given ~a" "image")
                                 "function expects a ci as input, given")))))))))
 
 ;; contract
@@ -109,7 +108,7 @@
                                 "expects an image-x as input, given")))))))))
 
 ;; contract
-;; purpose: determine if the input is an image-x
+;; purpose: determine if the input is an image-y
 (define is-img-y/c
   (make-flat-contract
    #:name 'is-img-y?
@@ -121,8 +120,7 @@
                            (raise-blame-error
                             blame val
                            (if (image? val)
-                                (begin "expects an image-y as input, given ~a"
-                                       "image")
+                                (begin "expects an image-y as input, given ~a" "image")
                                 "expects an image-y as input, given")))))))))
 
 ;; contract
@@ -156,8 +154,7 @@
                            (raise-blame-error
                             blame val
                             (if (image? val)
-                                (begin "expects an pixel-x as input, given ~a"
-                                       "image")
+                                (begin "expects an pixel-x as input, given ~a" "image")
                                 "expects an pixel-x as input, given")))))))))
 
 
@@ -175,5 +172,6 @@
 (define/contract (belh char-img an-img-x an-img-y scn)
   some/c
   (place-image char-img (image-x->pix-x an-img-x) (image-y->pix-y an-img-y) scn))
+
 
 
