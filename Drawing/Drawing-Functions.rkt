@@ -15,9 +15,12 @@
  
 
  ;;Rocket Drawing Functions
- 
+ draw-rocket ;;default
+
+ draw-rocket-img ;;custom image
 
  ;;Scene Drawing Functions
+ draw-ci 
  
  
  )
