@@ -3,7 +3,8 @@
 (require racket/contract
          2htdp/image
          "../Predicates/Image-Predicates.rkt"
-         "../Constants/E-Scene-Constants.rkt")
+         "../Constants/E-Scene-Constants.rkt"
+         "../Drawing/Scene-Drawing-Functions.rkt")
 
 (define IMAGE-WIDTH 30)
 (define IMAGE-HEIGHT 30)
@@ -150,17 +151,17 @@
 
 
 
-(define image-x->pix-x/c (-> is-img-x/c piz-x/c))
-(define image-y->pix-y/c (-> is-img-y/c piz-y/c))
+(define image-x->pix-x/c (-> is-img-x/c is-pix-x/c))
+(define image-y->pix-y/c (-> is-img-y/c is-pix-y/c))
 
-(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c))
+(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-img/c))
 
 
 
-;(define some/c (-> is-ci/c boolean?))
+(define some/c draw-ci/c)
 
-#;(define/contract (belh x)
+(define/contract (belh char-img an-img-x an-img-y scn)
   some/c
-  (> 0 9))
+  (place-image char-img (image-x->pix-x an-img-x) (image-y->pix-y an-img-y) scn))
 
 
