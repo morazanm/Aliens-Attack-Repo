@@ -2,17 +2,21 @@
 
 
 (require "./Constants/Constants.rkt"
-           "./Drawing/Drawing-Functions.rkt"
-           "./Predicates/Predicates.rkt"
-           "./ProcessTick/ProcessTick-Functions.rkt"
-           "./ProcessKey/ProcessKey-Functions.rkt"
-           "./GameOver/GameOver-Functions.rkt")
+         "./Drawing/Drawing-Functions.rkt"
+         "./Predicates/Predicates.rkt"
+         "./ProcessTick/ProcessTick-Functions.rkt"
+         "./ProcessKey/ProcessKey-Functions.rkt"
+         "./GameOver/GameOver-Functions.rkt")
 
   (provide
    ;;CONSTANTS
    E-SCENE
 
    E-SCENE2
+
+   MAX-CHARS-HORIZONTAL
+
+   MAX-CHARS-VERTICAL
    ;; CIs
  
    ;;Aliens
