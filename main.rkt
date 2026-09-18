@@ -2,18 +2,21 @@
 
 
 (require "./Constants/Constants.rkt"
-           "./Drawing/Drawing-Functions.rkt"
-           "./Predicates/Predicates.rkt"
-           "./ProcessTick/ProcessTick-Functions.rkt"
-           "./ProcessKey/ProcessKey-Functions.rkt"
-           "./GameOver/GameOver-Functions.rkt")
+         "./Drawing/Drawing-Functions.rkt"
+         "./Predicates/Predicates.rkt"
+         "./ProcessTick/ProcessTick-Functions.rkt"
+         "./ProcessKey/ProcessKey-Functions.rkt"
+         "./GameOver/GameOver-Functions.rkt")
 
   (provide
    ;;CONSTANTS
-
-   ;;E-SCENE Constants
    E-SCENE
- 
+
+   E-SCENE2
+
+   MAX-CHARS-HORIZONTAL
+
+   MAX-CHARS-VERTICAL
    ;; CIs
  
    ;;Aliens
@@ -32,7 +35,7 @@
    ROCKET-IMG2
  
    ;;DRAWING FUNCTIONS
- 
+
    ;;Alien Drawing Functions
  
 
@@ -40,11 +43,21 @@
  
 
    ;;Rocket Drawing Functions
+   draw-rocket ;;default
+
+   draw-rocket-img ;;custom image
  
 
    ;;Scene Drawing Functions
- 
+   draw-ci 
 
+   ;;PROCESS-KEY FUNCTIONS
+   
+   ;;Rocket Move functions
+   move-rckt-right
+
+   move-rckt-left
+   
    ;;Predicates
 
    ci?

@@ -18,6 +18,10 @@
 
 (define E-SCENE (empty-scene E-SCENE-W E-SCENE-H E-SCENE-COLOR))
 
+(define E-SCENE2-COLOR 'black)
+
+(define E-SCENE2 (empty-scene E-SCENE-W E-SCENE-H E-SCENE2-COLOR))
+
 ;; Sample image-x
 (define AN-IMG-X (/ MAX-CHARS-HORIZONTAL 2))
 

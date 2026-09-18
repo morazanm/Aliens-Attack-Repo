@@ -1,4 +1,12 @@
 #lang racket/base
 
+(require "./Rocket-Moving-Functions.rkt"
+         )
 
-;;stub
+(provide
+ ;;Rocket Move Functions
+ move-rckt-right
+
+ move-rckt-left
+
+ )
