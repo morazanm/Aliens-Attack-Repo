@@ -8,11 +8,25 @@
          "../Drawing/Scene-Drawing-Functions.rkt")
 
 
-
+;; formatting functions 
 (define (format-error blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
         [(image? value) (format "~a" message)]
         [else (format "~a: ~a" message value)]))
+
+(define (format-error-results blame value message)
+  (cond [(string? value) (format "~s" message)]
+        [(image? value) (format "~a" message)]
+        [else (format "~a" message)]))
+
+
+(define (type-arg-formatter arg-name arg-type)
+  (if (image? arg-type)
+      (begin (format "expects a ~a as input, given ~s" arg-name "image"))
+      (format "expects a ~a as input, given" arg-name)))
+
+
+;; CONTRACTS
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
@@ -27,9 +41,7 @@
                            (raise-blame-error
                             blame
                             val
-                            (if (image? val)
-                                (begin "function expects a ci as input, given ~a" "image")
-                                "function expects a ci as input, given")))))))))
+                            (type-arg-formatter "ci" val)))))))))
 
 ;; contract
 ;; Purpose: Determine if the input is an image
@@ -43,85 +55,59 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (if (image? val)
-                                (begin "expects an image as input, given ~a" "image")
-                                "expects an image as input, given")))))))))
-
-#|
- An image-x is an integer in [0..(sub1 MAX-CHARS-HORIZONTAL)]
-
-    A image-y is an integer in [0..(sub1 MAX-CHARS-VERTICAL)]
-
-    A scene is a (MAX-CHARS-HORIZONTAL * IMAGE-WIDTH) x (MAX-CHARS-VERTICAL * IMAGE-HEIGHT) image
-
-    A pixel-x coordinate (pix-x-coord) is an integer in
-    [0..(MAX-CHARS-HORIZONTAL * IMAGE-WIDTH)-1]
-
-    A pixel-y coordinate (pix-y-coord) is an integer in
-    [0..(MAX-CHARS-VERTICAL * IMAGE-HEIGHT)-1]
-|#
-
-
-;; purpose: determine if the input is an image-x 
-(define (image-x? val)
-  (and (integer? val)
-       (positive? val)
-       (<= 0 val (sub1 MAX-CHARS-HORIZONTAL))))
-
-;; purpose: determine if the input is an image-y
-(define (image-y? val)
-  (and (integer? val)
-       (positive? val)
-       (<= 0 val (sub1 MAX-CHARS-VERTICAL))))
-
-;; purpose: determine if the input is an pix-y
-(define (pixel-y? val)
-  (and (integer? val)
-       (positive? val)
-       (<= 0 val (sub1 (* IMAGE-HEIGHT MAX-CHARS-VERTICAL)))))
-
-;; purpose: determine if the input is an pix-x
-(define (pixel-x? val)
-  (and (integer? val)
-       (positive? val)
-       (<= 0 val (sub1 (* IMAGE-HEIGHT MAX-CHARS-HORIZONTAL)))))
-
-
-
+                            (type-arg-formatter "image" val)))))))))
 
 
 ;; contract
-;; purpose: determine if the input is an image-x
-(define is-img-x/c
+;; purpose: determine if the result is an image
+(define is-result-img/c
   (make-flat-contract
-   #:name 'is-img-x?
+   #:name 'is-img?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (image-x? val)
+                    (or (image? val)
                         ((λ ()
-                           (current-blame-format format-error)
+                           (current-blame-format format-error-results)
                            (raise-blame-error
                             blame val
-                            (if (image? val)
-                                (begin "expects an image-x as input, given ~a"
-                                       "image")
-                                "expects an image-x as input, given")))))))))
+                            (format "draw-ci should return image, instead returned ~a. please contact developers" val)))))))))
+
+(define within-max-chars-hori/c (integer-in 0 (sub1 MAX-CHARS-HORIZONTAL)))
+(define within-max-chars-vert/c (integer-in 0 (sub1 MAX-CHARS-VERTICAL)))
 
 ;; contract
-;; purpose: determine if the input is an image-y
+;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
 (define is-img-y/c
   (make-flat-contract
    #:name 'is-img-y?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (image-y? val)
+                    (or (within-max-chars-vert/c val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                           (if (image? val)
-                                (begin "expects an image-y as input, given ~a" "image")
-                                "expects an image-y as input, given")))))))))
+                            (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
+
+
+;; contract
+;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)
+(define is-img-x/c
+  (make-flat-contract
+   #:name 'is-img-x?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (within-max-chars-hori/c val)
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
+
+
+
+(define within-max-chars-hori*img-w-1/c (integer-in 0 (sub1 (* IMAGE-WIDTH MAX-CHARS-HORIZONTAL))))
+(define within-max-chars-vert*img-w-1/c (integer-in 0 (sub1 (* IMAGE-HEIGHT MAX-CHARS-VERTICAL))))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
@@ -130,15 +116,12 @@
    #:name 'is-pix-y?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (pixel-y? val)
+                    (or (within-max-chars-vert*img-w-1/c val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (if (image? val)
-                                (begin "expects an pixel-y as input, given ~a"
-                                       "image")
-                                "expects an pixel-y as input, given")))))))))
+                            (type-arg-formatter "expecting an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-WIDTH)-1]" val)))))))))
 
 
 ;; contract
@@ -148,30 +131,26 @@
    #:name 'is-pix-x?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (pixel-x? val)
+                    (or (within-max-chars-hori*img-w-1/c val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (if (image? val)
-                                (begin "expects an pixel-x as input, given ~a" "image")
-                                "expects an pixel-x as input, given")))))))))
+                            (type-arg-formatter "expected an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-HEIGHT)-1]" val)))))))))
+
+
+
+;; FUNCTION CONTRACTS
+(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-result-img/c))
 
 
 
 
-(define image-x->pix-x/c (-> is-img-x/c is-pix-x/c))
-(define image-y->pix-y/c (-> is-img-y/c is-pix-y/c))
+;(define some/c (-> is-result-img/c any/c))
 
-(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-img/c))
-
-
-
-(define some/c draw-ci/c)
-
-(define/contract (belh char-img an-img-x an-img-y scn)
-  some/c
-  (place-image char-img (image-x->pix-x an-img-x) (image-y->pix-y an-img-y) scn))
+#;(define/contract (belh ix)
+    some/c
+    (+ (* ix IMAGE-WIDTH) (/ IMAGE-WIDTH 2)))
 
 
 
