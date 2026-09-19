@@ -12,7 +12,7 @@
 ;; Purpose: Create the fuselage image of the given color
 (define (mk-fuselage-img a-color)
   ;(ellipse IMAGE-WIDTH (* 2/3 IMAGE-HEIGHT) 'solid a-color))
-  (circle (* 1/3 IMAGE-HEIGHT) 'solid a-color))
+  (circle (* 1/3 MAX-CI-HEIGHT) 'solid a-color))
 
 ;; color --> image
 ;; Purpose: Create rocket window image
