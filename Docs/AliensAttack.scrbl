@@ -1,6 +1,8 @@
 #lang scribble/manual
 
-@(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
+@(require (for-label #;"../Constants/E-Scene-Constants.rkt"
+                     #;"../Constants/Image-Constants.rkt"
+                     APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
