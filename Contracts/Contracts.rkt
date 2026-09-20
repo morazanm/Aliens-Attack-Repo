@@ -2,10 +2,12 @@
 
 (require racket/contract
          2htdp/image
+         rackunit
          "../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Image-Constants.rkt"
-         "../Drawing/Scene-Drawing-Functions.rkt")
+         "../Drawing/Scene-Drawing-Functions.rkt"
+         "../Drawing/Rocket-Drawing-Functions.rkt")
 
 
 ;; formatting functions 
@@ -43,6 +45,21 @@
                             val
                             (type-arg-formatter "ci" val)))))))))
 
+
+(define/contract (test-func-for-is-ci/c x)
+  (-> is-ci/c any/c)
+  x)
+
+(check-equal? (test-func-for-is-ci/c (circle 10 'solid 'red)) (circle 10 'solid 'red))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c (circle 50 'solid 'blue))))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c (square 40 'solid 'blue))))
+(check-equal? (test-func-for-is-ci/c (square 22 'solid 'blue)) (square 22 'solid 'blue))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c "duck")))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c #true)))
+(check-exn exn:fail? (λ () (test-func-for-is-ci/c 22)))
+              
+
 ;; contract
 ;; Purpose: Determine if the input is an image
 (define is-img/c
@@ -58,6 +75,19 @@
                             (type-arg-formatter "image" val)))))))))
 
 
+(define/contract (test-func-for-is-img/c x)
+  (-> is-img/c any/c)
+  x)
+
+(check-equal? (test-func-for-is-img/c (circle 10 'solid 'red)) (circle 10 'solid 'red))
+(check-equal? (test-func-for-is-img/c (square 22 'solid 'blue)) (square 22 'solid 'blue))
+(check-exn exn:fail? (λ () (test-func-for-is-img/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-img/c "owl")))
+(check-exn exn:fail? (λ () (test-func-for-is-img/c #false)))
+(check-exn exn:fail? (λ () (test-func-for-is-img/c 78)))
+        
+
+
 ;; contract
 ;; purpose: determine if the result is an image
 (define is-result-img/c
@@ -71,6 +101,21 @@
                            (raise-blame-error
                             blame val
                             (format "draw-ci should return image, instead returned ~a. please contact developers" val)))))))))
+
+(define/contract (test-func-for-is-result-img/c x)
+  (-> is-result-img/c any/c)
+  x)
+
+(check-equal? (test-func-for-is-result-img/c (circle 5 'solid 'green)) (circle 5 'solid 'green))
+(check-equal? (test-func-for-is-result-img/c (square 1 'solid 'yellow)) (square 1 'solid 'yellow))
+(check-exn exn:fail? (λ () (test-func-for-is-result-img/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-result-img/c "green")))
+(check-exn exn:fail? (λ () (test-func-for-is-result-img/c #true)))
+(check-exn exn:fail? (λ () (test-func-for-is-result-img/c 33)))
+        
+
+
+
 
 (define within-max-chars-hori/c (integer-in 0 (sub1 MAX-CHARS-HORIZONTAL)))
 (define within-max-chars-vert/c (integer-in 0 (sub1 MAX-CHARS-VERTICAL)))
@@ -89,6 +134,23 @@
                             blame val
                             (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
 
+(define/contract (test-func-for-is-img-y/c x)
+  (-> is-img-y/c any/c)
+  x)
+
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c (circle 88 'solid 'red))))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c (square 36 'solid 'blue))))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c 'hola)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c "key")))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c #true)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c 78)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-y/c -1)))
+(check-equal? (test-func-for-is-img-y/c 10) 10)
+(check-equal? (test-func-for-is-img-y/c 14) 14)
+(check-equal? (test-func-for-is-img-y/c 6) 6)
+        
+
+
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)
@@ -104,6 +166,22 @@
                             blame val
                             (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
 
+(define/contract (test-func-for-is-img-x/c x)
+  (-> is-img-x/c any/c)
+  x)
+
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c (circle 10 'solid 'red))))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c (square 22 'solid 'blue))))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c "duck")))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c #true)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c 22)))
+(check-exn exn:fail? (λ () (test-func-for-is-img-x/c -1)))
+(check-equal? (test-func-for-is-img-x/c 19) 19)
+(check-equal? (test-func-for-is-img-x/c 10) 10)
+(check-equal? (test-func-for-is-img-x/c 14) 14)
+(check-equal? (test-func-for-is-img-x/c 6) 6)
+        
 
 
 (define within-max-chars-hori*img-w-1/c (integer-in 0 (sub1 (* IMAGE-WIDTH MAX-CHARS-HORIZONTAL))))
@@ -121,8 +199,24 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "expecting an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-WIDTH)-1]" val)))))))))
+                            (type-arg-formatter "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]" val)))))))))
 
+(define/contract (test-func-for-is-pix-y/c x)
+  (-> is-pix-y/c any/c)
+  x)
+
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c (circle 257 'solid 'red))))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c (square 84 'solid 'blue))))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c "penguin")))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c #false)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c 450)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-y/c -1)))
+(check-equal? (test-func-for-is-pix-y/c 449) 449)
+(check-equal? (test-func-for-is-pix-y/c 19) 19)
+(check-equal? (test-func-for-is-pix-y/c 10) 10)
+(check-equal? (test-func-for-is-pix-y/c 14) 14)
+(check-equal? (test-func-for-is-pix-y/c 6) 6)
 
 ;; contract
 ;; purpose: determine if the input is an image-x
@@ -136,13 +230,37 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "expected an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-HEIGHT)-1]" val)))))))))
+                            (type-arg-formatter "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]" val)))))))))
+
+
+(define/contract (test-func-for-is-pix-x/c x)
+  (-> is-pix-x/c any/c)
+  x)
+
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c (circle 10 'solid 'red))))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c (square 22 'solid 'blue))))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c 'hello)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c "truck")))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c #true)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c 600)))
+(check-exn exn:fail? (λ () (test-func-for-is-pix-x/c -1)))
+(check-equal? (test-func-for-is-pix-x/c 599) 599)
+(check-equal? (test-func-for-is-pix-x/c 19) 19)
+(check-equal? (test-func-for-is-pix-x/c 10) 10)
+(check-equal? (test-func-for-is-pix-x/c 14) 14)
+(check-equal? (test-func-for-is-pix-x/c 6) 6)
 
 
 
 ;; FUNCTION CONTRACTS
-(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-result-img/c))
 
+
+(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-result-img/c))
+(define ci?/c (-> is-ci/c boolean?))
+(define move-rckt-right/c (-> is-img-x/c is-img-x/c))
+(define move-rckt-left/c (-> is-img-x/c is-img-x/c))
+(define draw-rocket/c (-> is-img-x/c is-img/c is-result-img/c))
+(define draw-rocket-img/c (-> is-ci/c is-img-x/c is-img/c is-result-img/c))
 
 
 
