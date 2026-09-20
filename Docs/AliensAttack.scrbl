@@ -1,8 +1,6 @@
 #lang scribble/manual
 
-@(require (for-label #;"../Constants/E-Scene-Constants.rkt"
-                     #;"../Constants/Image-Constants.rkt"
-                     APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
+@(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe racket (only-in typed/racket/base U Listof Boolean List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
@@ -13,16 +11,16 @@ described in the textbook @italic{Animated Problem Solving}.
 @table-of-contents[]
 
 @section{Data Definitions}
-@defidform[IMAGE-WIDTH]{The maximum width of the image is @bold{30} pixels.}
+@defidform[MAX-CI-WIDTH]{The maximum width of a character image is @bold{30} pixels.}
 
-@defidform[IMAGE-HEIGHT]{The maximum height of the image is @bold{30} pixels.}
+@defidform[MAX-CI-HEIGHT]{The maximum height of a character image is @bold{30} pixels.}
 
 @defidform[MAX-CHARS-HORIZONTAL]{The maximum amount of character images that fit horizontally is @bold{20}.}
 
 @defidform[MAX-CHARS-VERTICAL]{The maximum amount of character images that fit vertically is @bold{15}.}
 
 @defidform[ci]{
-A @italic{ci} is a character image has dimensions which are at most @racket[IMAGE-WIDTH] x @racket[IMAGE-HEIGHT] pixels.}
+A @italic{ci} is a character image whose dimensions are at most @racket[MAX-CI-WIDTH] x @racket[MAX-CI-HEIGHT] pixels.}
 
 @defidform[image-x]{
 An @italic{image-x} is an integer in [@racket[0]..(@racket[sub1] @racket[MAX-CHARS-HORIZONTAL])].}
@@ -31,7 +29,7 @@ An @italic{image-x} is an integer in [@racket[0]..(@racket[sub1] @racket[MAX-CHA
 An @italic{image-y} is an integer in [@racket[0]..(@racket[sub1] @racket[MAX-CHARS-VERTICAL])].}
 
 @defidform[scene]
-A @italic{scene} is a (@racket[MAX-CHARS-HORIZONTAL] @racket[*] @racket[IMAGE-WIDTH]) x (@racket[MAX-CHARS-VERTICAL] @racket[*] @racket[IMAGE-HEIGHT]) image.
+A @italic{scene} is a (@racket[MAX-CHARS-HORIZONTAL] @racket[*] @racket[MAX-CI-WIDTH]) x (@racket[MAX-CHARS-VERTICAL] @racket[*] @racket[MAX-CI-HEIGHT]) image.
 
 @defidform[rocket]
 A @italic{rocket} is an @racket[image-x].
