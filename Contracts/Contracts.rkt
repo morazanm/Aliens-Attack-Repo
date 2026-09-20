@@ -3,12 +3,13 @@
 (require racket/contract
          2htdp/image
          rackunit
-         "../Predicates/Image-Predicates.rkt"
+         ;"../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Image-Constants.rkt"
-         "../Drawing/Scene-Drawing-Functions.rkt"
-         "../Drawing/Rocket-Drawing-Functions.rkt"
-         "../ProcessKey/Rocket-Moving-Functions.rkt")
+         ;"../Drawing/Scene-Drawing-Functions.rkt"
+         ;"../Drawing/Rocket-Drawing-Functions.rkt"
+         ;"../ProcessKey/Rocket-Moving-Functions.rkt"
+         )
 
 (provide draw-ci/c
          ci?/c
@@ -58,7 +59,9 @@
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (ci? val)
+                    (or (and (image? val)
+                              (<= (image-width val)  IMAGE-WIDTH)
+                              (<= (image-height val) IMAGE-HEIGHT))
                         ((λ ()
                            (current-blame-format format-error-for-ci)
                            (raise-blame-error

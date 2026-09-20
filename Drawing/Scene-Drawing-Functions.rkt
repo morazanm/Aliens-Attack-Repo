@@ -2,7 +2,9 @@
 
 
 (require 2htdp/image
-         "../Constants/Image-Constants.rkt")
+         racket/contract
+         "../Constants/Image-Constants.rkt"
+         "../Contracts/Contracts.rkt")
 
 (provide (all-defined-out))
 
@@ -18,7 +20,8 @@
 
 ;; image image-x image-y image --> image
 ;; Purpose: Place the first given image in the seocond given image at the given image coordinates
-(define (draw-ci char-img an-img-x an-img-y scn)
+(define/contract (draw-ci char-img an-img-x an-img-y scn)
+  draw-ci/c
   (place-image char-img (image-x->pix-x an-img-x) (image-y->pix-y an-img-y) scn))
 
 
