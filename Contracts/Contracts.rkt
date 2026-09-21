@@ -59,15 +59,13 @@
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (image? val)
-                              (<= (image-width val)  IMAGE-WIDTH)
-                              (<= (image-height val) IMAGE-HEIGHT))
+                    (or (image? val)
                         ((λ ()
                            (current-blame-format format-error-for-ci)
                            (raise-blame-error
                             blame
                             val
-                            (type-arg-formatter "ci" val)))))))))
+                            (type-arg-formatter "image" val)))))))))
 
 
 ;; contract
