@@ -9,4 +9,4 @@
 ;; color --> image
 ;; Purpose: Create shot image of the given color
 (define (mk-shot-img a-color)
-  (radial-star 8 (/ IMAGE-WIDTH 8) (/ IMAGE-WIDTH 2) 'solid  a-color))
+  (radial-star 8 (/ MAX-CI-WIDTH 8) (/ MAX-CI-WIDTH 2) 'solid  a-color))

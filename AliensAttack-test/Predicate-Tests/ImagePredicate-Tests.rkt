@@ -11,14 +11,14 @@
 
 
 ;; Sample expressions for ci?
-(define IS-CI (and (<= (image-width (circle 10 'solid 'red)) IMAGE-WIDTH)
-                   (<= (image-height (circle 10 'solid 'red)) IMAGE-HEIGHT)))
+(define IS-CI (and (<= (image-width (circle 10 'solid 'red)) MAX-CI-WIDTH)
+                   (<= (image-height (circle 10 'solid 'red)) MAX-CI-HEIGHT)))
 
-(define NOT-CI (and (<= (image-width  (square 40 'solid 'blue)) IMAGE-WIDTH)
-                    (<= (image-height (square 40 'solid 'blue)) IMAGE-HEIGHT)))
+(define NOT-CI (and (<= (image-width  (square 40 'solid 'blue)) MAX-CI-WIDTH)
+                    (<= (image-height (square 40 'solid 'blue)) MAX-CI-HEIGHT)))
 
-(define NOT-CI2 (and (<= (image-width  (rectangle 20 40 'solid 'blue)) IMAGE-WIDTH)
-                     (<= (image-height (rectangle 20 40 'solid 'blue)) IMAGE-HEIGHT)))
+(define NOT-CI2 (and (<= (image-width  (rectangle 20 40 'solid 'blue)) MAX-CI-WIDTH)
+                     (<= (image-height (rectangle 20 40 'solid 'blue)) MAX-CI-HEIGHT)))
 
 ;; Tests using sample computations for ci?
 (check-equal? (ci? (circle 10 'solid 'red))  IS-CI)
