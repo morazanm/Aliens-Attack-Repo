@@ -44,33 +44,34 @@
         [else (format "~a" message)]))
 
 
-(define (type-arg-formatter arg-name arg-type)
+(define (type-arg-formatter func-name arg-name arg-type)
   (if (image? arg-type)
-      (begin (format "expects a ~a as input, given ~a" arg-name "image"))
-      (format "expects a ~a as input, given" arg-name)))
+      (begin (format "~a: expects ~a as input, given ~a" func-name arg-name "image"))
+      (format "~a: expects ~a as input, given" func-name arg-name)))
 
 
 ;; CONTRACTS
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
-(define is-ci/c
+(define (is-ci/c func-name)
   (make-flat-contract
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (image? val)
+                    (or (and (<= (image-width val)  IMAGE-WIDTH)
+                             (<= (image-height val) IMAGE-HEIGHT))
                         ((λ ()
                            (current-blame-format format-error-for-ci)
                            (raise-blame-error
                             blame
                             val
-                            (type-arg-formatter "image" val)))))))))
+                            (type-arg-formatter func-name "a ci" val)))))))))
 
 
 ;; contract
 ;; Purpose: Determine if the input is an image
-(define is-img/c
+(define (is-img/c func-name)
   (make-flat-contract
    #:name 'is-img?
    #:projection (λ (blame)
@@ -80,13 +81,13 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "image" val)))))))))
+                            (type-arg-formatter func-name "an image" val)))))))))
 
 
 
 ;; contract
 ;; purpose: determine if the result is an image
-(define is-result-img/c
+(define (is-result-img/c func-name)
   (make-flat-contract
    #:name 'is-img?
    #:projection (λ (blame)
@@ -105,7 +106,7 @@
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
-(define is-img-y/c
+(define (is-img-y/c func-name)
   (make-flat-contract
    #:name 'is-img-y?
    #:projection (λ (blame)
@@ -115,13 +116,13 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
+                            (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
 
 
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)
-(define is-img-x/c
+(define (is-img-x/c func-name)
   (make-flat-contract
    #:name 'is-img-x?
    #:projection (λ (blame)
@@ -131,7 +132,7 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
+                            (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
 
 
 
@@ -140,7 +141,7 @@
 
 ;; contract
 ;; purpose: determine if the input is an image-x
-(define is-pix-y/c
+(define (is-pix-y/c func-name)
   (make-flat-contract
    #:name 'is-pix-y?
    #:projection (λ (blame)
@@ -150,13 +151,13 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]" val)))))))))
+                            (type-arg-formatter func-name "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]" val)))))))))
 
 
 
 ;; contract
 ;; purpose: determine if the input is an image-x
-(define is-pix-x/c
+(define (is-pix-x/c func-name)
   (make-flat-contract
    #:name 'is-pix-x?
    #:projection (λ (blame)
@@ -166,21 +167,42 @@
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
-                            (type-arg-formatter "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]" val)))))))))
+                            (type-arg-formatter func-name "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]" val)))))))))
+
+
+
+;;contract
+;;Purpose: Determines if the input is a ci
+(define (is-img&ci/c func-name)
+  (make-flat-contract
+   #:name 'is-img&ci?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (and (image? val)
+                             (<= (image-width val)  IMAGE-WIDTH)
+                             (<= (image-height val) IMAGE-HEIGHT))
+                        ((λ ()
+                           (current-blame-format format-error-for-ci)
+                           (raise-blame-error
+                            blame
+                            val
+                            (type-arg-formatter func-name "a ci" val)))))))))
+
+
 
 
 ;; FUNCTION CONTRACTS
 
 
-(define draw-ci/c (-> is-ci/c is-img-x/c is-img-y/c is-img/c is-result-img/c))
+(define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-img/c "draw-ci") is-result-img/c))
 
-(define ci?/c (-> is-ci/c boolean?))
+(define ci?/c (-> (is-img/c "ci?") boolean?))
 
-(define move-rckt-right/c (-> is-img-x/c is-img-x/c))
+(define move-rckt-right/c (-> (is-img-x/c "move-rckt-right") (is-img-x/c "move-rckt-right")))
 
-(define move-rckt-left/c (-> is-img-x/c is-img-x/c))
+(define move-rckt-left/c (-> (is-img-x/c "move-rckt-left") (is-img-x/c "move-rckt-left")))
 
-(define draw-rocket/c (-> is-img-x/c is-img/c is-result-img/c))
+(define draw-rocket/c (-> (is-img-x/c "draw-rocket") (is-img/c "draw-rocket") is-result-img/c))
 
-(define draw-rocket-img/c (-> is-ci/c is-img-x/c is-img/c is-result-img/c))
+(define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-img/c "draw-rocket-img") is-result-img/c))
 

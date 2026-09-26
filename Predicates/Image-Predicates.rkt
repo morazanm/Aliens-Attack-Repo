@@ -3,7 +3,7 @@
 (require 2htdp/image
          "../Constants/Image-Constants.rkt"
          "../Contracts/Contracts.rkt"
-         racket/contract)
+         racket/contract/region)
 
 (provide (all-defined-out))
 
