@@ -30,7 +30,7 @@
 ;; formatting functions 
 (define (format-error blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
-        [(image? value) (format "~s" message)]
+        [(image? value) (format "~a" message)]
         [else (format "~a: ~a" message value)]))
 
 (define (format-error-for-ci blame value message)
@@ -46,7 +46,7 @@
 
 (define (type-arg-formatter func-name arg-name arg-type)
   (if (image? arg-type)
-      (begin (format "~a: expects ~a as input, given ~a" func-name arg-name "image"))
+      (format "~a: expects ~a as input, given image" func-name arg-name)
       (format "~a: expects ~a as input, given" func-name arg-name)))
 
 
