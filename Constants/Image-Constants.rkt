@@ -1,6 +1,7 @@
 #lang racket/base
 
-(provide (all-defined-out))
+(provide (rename-out (IMAGE-WIDTH MAX-CI-WIDTH)
+                     (IMAGE-HEIGHT MAX-CI-HEIGHT)))
 
 
 (define IMAGE-WIDTH 30)

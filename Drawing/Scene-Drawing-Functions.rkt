@@ -9,12 +9,12 @@
 ;; image-x --> pixel-x
 ;; Purpose: To translate the given image-x to a pixel-x
 (define (image-x->pix-x ix)
-  (+ (* ix IMAGE-WIDTH) (/ IMAGE-WIDTH 2)))
+  (+ (* ix MAX-CI-WIDTH) (/ MAX-CI-WIDTH 2)))
 
 ;; image-y --> pixel-y
 ;; Purpose: To translate the given image-y to a pixel-y
 (define (image-y->pix-y iy)
-  (+ (* iy IMAGE-HEIGHT) (/ IMAGE-HEIGHT 2)))
+  (+ (* iy MAX-CI-HEIGHT) (/ MAX-CI-HEIGHT 2)))
 
 ;; image image-x image-y image --> image
 ;; Purpose: Place the first given image in the seocond given image at the given image coordinates

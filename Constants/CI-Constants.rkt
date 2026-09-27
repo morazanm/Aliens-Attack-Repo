@@ -8,30 +8,30 @@
 
 ;;ALIEN-CI
 ;; Sample expressions for mk-alien-img
-(define ALIEN-IMG (overlay (text "X" 25 ALIEN-COLOR) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR)))
-(define ALIEN-IMG2 (overlay (text "X" 25 ALIEN-COLOR2) (circle (/ IMAGE-WIDTH 4) 'solid ALIEN-COLOR2)))
+(define ALIEN-IMG (overlay (text "X" 25 ALIEN-COLOR) (circle (/ MAX-CI-WIDTH 4) 'solid ALIEN-COLOR)))
+(define ALIEN-IMG2 (overlay (text "X" 25 ALIEN-COLOR2) (circle (/ MAX-CI-WIDTH 4) 'solid ALIEN-COLOR2)))
 
 ;;SHOT-CI
 ;; Sample expressions for mk-shot-img
 (define SHOT-IMG (radial-star 8
-                              (/ IMAGE-WIDTH 8)
-                              (/ IMAGE-WIDTH 2)
+                              (/ MAX-CI-WIDTH 8)
+                              (/ MAX-CI-WIDTH 2)
                               'solid
                               SHOT-COLOR))
 
 (define SHOT-IMG2 (radial-star 8
-                               (/ IMAGE-WIDTH 8)
-                               (/ IMAGE-WIDTH 2)
+                               (/ MAX-CI-WIDTH 8)
+                               (/ MAX-CI-WIDTH 2)
                                'solid
                                SHOT-COLOR2))
 
 ;;ROCKET-CI
 ;; Sample expressions for mk-fuselage-img
-(define FUSELAGE (circle (* 1/3 IMAGE-HEIGHT)
+(define FUSELAGE (circle (* 1/3 MAX-CI-HEIGHT)
                          'solid
                          FUSELAGE-COLOR))
 
-(define FUSELAGE2 (circle (* 1/3 IMAGE-HEIGHT)
+(define FUSELAGE2 (circle (* 1/3 MAX-CI-HEIGHT)
                           'solid
                           FUSELAGE2-COLOR))
 
