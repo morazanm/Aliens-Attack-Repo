@@ -10,6 +10,18 @@
 
   (provide
    ;;CONSTANTS
+   MIN-IMG-X
+
+   MAX-IMG-X
+
+   MIN-IMG-Y
+
+   MAX-IMG-Y
+   
+   E-SCENE-W
+
+   E-SCENE-H
+ 
    E-SCENE
 
    E-SCENE2
@@ -21,6 +33,8 @@
    MAX-CHARS-HORIZONTAL
 
    MAX-CHARS-VERTICAL
+
+   TICK-RATE
    ;; CIs
  
    ;;Aliens
@@ -41,8 +55,10 @@
    ;;DRAWING FUNCTIONS
 
    ;;Alien Drawing Functions
- 
+   draw-alien ;;default
 
+   draw-alien-img ;;custom image
+ 
    ;;Shot Drawing Functions
  
 
@@ -61,9 +77,33 @@
    move-rckt-right
 
    move-rckt-left
+
+   ;;PROCESS-TICK FUNCTIONS
+   
+   ;;Moving Functions
+   move-right-image-x
+
+   move-left-image-x
+
+   move-down-image-y
+
+
+   ;;Direction Functions
+   new-dir-after-down
+
+   new-dir-after-left
+
+   new-dir-after-right
    
    ;;Predicates
 
+   ;;Image Predicates
    ci?
 
+   ;;Alien Predicates
+   alien-at-right-edge?
+
+   alien-at-left-edge?
+
+   alien-reached-earth?
    )
