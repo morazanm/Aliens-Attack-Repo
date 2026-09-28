@@ -2,6 +2,7 @@
 
 (require racket/contract
          2htdp/image
+         (only-in lang/htdp-beginner posn-x posn-y posn?)
          rackunit
          ;"../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
@@ -97,7 +98,7 @@
                            (current-blame-format format-error-results)
                            (raise-blame-error
                             blame val
-                            (format "draw-ci should return image, instead returned ~a. please contact developers" val)))))))))
+                            (format "~a should return image, instead returned ~a. please contact developers" func-name val)))))))))
 
 
 
@@ -189,12 +190,45 @@
                             (type-arg-formatter func-name "a ci" val)))))))))
 
 
+;; contract
+;; Purpose: Determine if the input is an alien
+(define (is-alien/c func-name)
+  (make-flat-contract
+   #:name 'is-alien?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (and (posn? val)
+                             (within-max-chars-hori/c (posn-x val))
+                             (within-max-chars-vert/c (posn-y val)))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "an alien" val)))))))))
+
+
+;; contract
+;; Purpose: Determine if the input is a scene
+(define (is-scene/c func-name)
+  (make-flat-contract
+   #:name 'is-scene?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (and (image? val)
+                             (>= scene-width (image-width val))
+                             (>= scene-height (image-height val)))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "a scene" val)))))))))
+
 
 
 ;; FUNCTION CONTRACTS
 
 
-(define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-img/c "draw-ci") is-result-img/c))
+(define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-img/c "draw-ci") (is-result-img/c "draw-ci")))
 
 (define ci?/c (-> (is-img/c "ci?") boolean?))
 
@@ -202,7 +236,11 @@
 
 (define move-rckt-left/c (-> (is-img-x/c "move-rckt-left") (is-img-x/c "move-rckt-left")))
 
-(define draw-rocket/c (-> (is-img-x/c "draw-rocket") (is-img/c "draw-rocket") is-result-img/c))
+(define draw-rocket/c (-> (is-img-x/c "draw-rocket") (is-img/c "draw-rocket") (is-result-img/c "draw-rocket")))
 
-(define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-img/c "draw-rocket-img") is-result-img/c))
+(define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-img/c "draw-rocket-img") (is-result-img/c "draw-rocket-img")))
+
+(define draw-alien (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
+
+(define draw-alien-img (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
 
