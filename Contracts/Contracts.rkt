@@ -25,7 +25,23 @@
          is-img-y/c
          is-img-x/c
          is-pix-y/c
-         is-pix-x/c)
+         is-pix-x/c
+
+         draw-alien/c
+         draw-alien-img/c
+         move-right-image-x/c
+         move-left-image-x/c
+         move-down-image-y/c
+         new-dir-after-down/c
+         new-dir-after-left/c
+         new-dir-after-right/c
+         alien-at-right-edge/c
+         alien-at-left-edge/c
+         alien-reached-earth/c
+
+         is-alien/c
+         is-scene/c
+         is-dir/c)
 
 
 ;; formatting functions 
@@ -215,8 +231,8 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (>= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
-                             (>= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
+                             (= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
+                             (= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -243,8 +259,7 @@
 
 
 
-;; FUNCTION CONTRACTS
-
+;;;; FUNCTION CONTRACTS
 
 (define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-scene/c "draw-ci") (is-result-img/c "draw-ci")))
 
