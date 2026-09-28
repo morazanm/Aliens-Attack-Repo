@@ -60,8 +60,8 @@
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (<= (image-width val)  IMAGE-WIDTH)
-                             (<= (image-height val) IMAGE-HEIGHT))
+                    (or (and (<= (image-width val)  MAX-CI-WIDTH)
+                             (<= (image-height val) MAX-CI-HEIGHT))
                         ((λ ()
                            (current-blame-format format-error-for-ci)
                            (raise-blame-error
@@ -137,8 +137,8 @@
 
 
 
-(define within-max-chars-hori*img-w-1/c (integer-in 0 (sub1 (* IMAGE-WIDTH MAX-CHARS-HORIZONTAL))))
-(define within-max-chars-vert*img-w-1/c (integer-in 0 (sub1 (* IMAGE-HEIGHT MAX-CHARS-VERTICAL))))
+(define within-max-chars-hori*img-w-1/c (integer-in 0 (sub1 (* MAX-CI-WIDTH MAX-CHARS-HORIZONTAL))))
+(define within-max-chars-vert*img-w-1/c (integer-in 0 (sub1 (* MAX-CI-HEIGHT MAX-CHARS-VERTICAL))))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
@@ -180,8 +180,8 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (<= (image-width val)  IMAGE-WIDTH)
-                             (<= (image-height val) IMAGE-HEIGHT))
+                             (<= (image-width val)  MAX-CI-WIDTH)
+                             (<= (image-height val) MAX-CI-HEIGHT))
                         ((λ ()
                            (current-blame-format format-error-for-ci)
                            (raise-blame-error
@@ -215,8 +215,8 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (>= (* MAX-CHARS-HORIZONTAL IMAGE-WIDTH #;MAX-CI-WIDTH) (image-width val))
-                             (>= (* MAX-CHARS-VERTICAL IMAGE-HEIGHT #;MAX-CI-HEIGHT) (image-height val)))
+                             (>= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
+                             (>= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
