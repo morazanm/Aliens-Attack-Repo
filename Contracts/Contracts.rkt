@@ -215,8 +215,8 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (>= scene-width (image-width val))
-                             (>= scene-height (image-height val)))
+                             (>= (* MAX-CHARS-HORIZONTAL IMAGE-WIDTH #;MAX-CI-WIDTH) (image-width val))
+                             (>= (* MAX-CHARS-VERTICAL IMAGE-HEIGHT #;MAX-CI-HEIGHT) (image-height val)))
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -225,10 +225,28 @@
 
 
 
+;; contract
+;; Purpose: Determine if the input is a dir
+(define (is-dir/c func-name)
+  (make-flat-contract
+   #:name 'is-dir?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (or (eq? 'right val)
+                            (eq? 'left val)
+                            (eq? 'down val))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "a dir" val)))))))))
+
+
+
 ;; FUNCTION CONTRACTS
 
 
-(define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-img/c "draw-ci") (is-result-img/c "draw-ci")))
+(define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-scene/c "draw-ci") (is-result-img/c "draw-ci")))
 
 (define ci?/c (-> (is-img/c "ci?") boolean?))
 
@@ -236,11 +254,29 @@
 
 (define move-rckt-left/c (-> (is-img-x/c "move-rckt-left") (is-img-x/c "move-rckt-left")))
 
-(define draw-rocket/c (-> (is-img-x/c "draw-rocket") (is-img/c "draw-rocket") (is-result-img/c "draw-rocket")))
+(define draw-rocket/c (-> (is-img-x/c "draw-rocket") (is-scene/c "draw-rocket") (is-result-img/c "draw-rocket")))
 
-(define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-img/c "draw-rocket-img") (is-result-img/c "draw-rocket-img")))
+(define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-scene/c "draw-rocket-img") (is-result-img/c "draw-rocket-img")))
 
-(define draw-alien (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
 
-(define draw-alien-img (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
+(define draw-alien/c (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
 
+(define draw-alien-img/c (-> (is-alien/c "draw-alien") (is-scene/c "draw-alien") (is-result-img/c "draw-alien")))
+
+(define move-right-image-x/c (-> (is-img-x/c "move-right-image-x") (is-img-x/c "move-right-image-x")))
+
+(define move-left-image-x/c (-> (is-img-x/c "move-left-image-x") (is-img-x/c "move-left-image-x")))
+
+(define move-down-image-y/c (-> (is-img-y/c "move-down-image-y") (is-img-y/c "move-down-image-y")))
+
+(define new-dir-after-down/c (-> (is-alien/c "new-dir-after-down") (is-dir/c "new-dir-after-down")))
+
+(define new-dir-after-left/c (-> (is-alien/c "new-dir-after-left") (is-dir/c "new-dir-after-left")))
+
+(define new-dir-after-right/c (-> (is-alien/c "new-dir-after-right") (is-dir/c "new-dir-after-right")))
+
+(define alien-at-right-edge/c (-> (is-alien/c "alien-at-right-edge?") boolean?))
+
+(define alien-at-left-edge/c (-> (is-alien/c "alien-at-left-edge?") boolean?))
+
+(define alien-reached-earth/c (-> (is-alien/c "alien-reached-earth?") boolean?))
