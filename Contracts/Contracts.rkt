@@ -274,6 +274,7 @@
 (define draw-rocket-img/c (-> (is-ci/c "draw-rocket-img") (is-img-x/c "draw-rocket-img") (is-scene/c "draw-rocket-img") (is-result-img/c "draw-rocket-img")))
 
 
+
 (define draw-alien/c (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
 
 (define draw-alien-img/c (-> (is-alien/c "draw-alien") (is-scene/c "draw-alien") (is-result-img/c "draw-alien")))
