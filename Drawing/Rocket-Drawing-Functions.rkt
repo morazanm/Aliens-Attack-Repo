@@ -1,10 +1,12 @@
 #lang racket/base
 
 (require 2htdp/image
+         racket/contract
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Image-Constants.rkt"
          "../Constants/CI-Constants.rkt"
-         "./Scene-Drawing-Functions.rkt")
+         "./Scene-Drawing-Functions.rkt"
+         "../Contracts/Contracts.rkt")
 
 (provide (all-defined-out))
 
@@ -58,10 +60,12 @@
 
 ;; rocket scene --> scene
 ;; Purpose: To draw the rocket in the given scene
-(define (draw-rocket a-rocket a-scene)
+(define/contract (draw-rocket a-rocket a-scene)
+  draw-rocket/c
   (draw-ci ROCKET-IMG a-rocket ROCKET-Y a-scene))
 
 ;; ci rocket scene --> scene
 ;; Purpose: To draw the rocket in the given scene
-(define (draw-rocket-img a-rocket-img a-rocket a-scene)
+(define/contract (draw-rocket-img a-rocket-img a-rocket a-scene)
+  draw-rocket-img/c
   (draw-ci a-rocket-img a-rocket ROCKET-Y a-scene))
