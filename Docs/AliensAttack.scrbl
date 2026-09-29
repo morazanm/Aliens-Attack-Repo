@@ -55,6 +55,14 @@ A @italic{rocket} is an @racket[image-x].}
 @defidform[alien]{
 An @italic{alien} is a @racket[posn]: @racket[(make-posn image-x image-y)].}
 
+
+@defidform[shot]{
+A @italic{shot} is either:
+@(linebreak)
+1. @racket[NO-SHOT]
+@(linebreak)
+2. A @racket[posn]: @racket[(make-posn image-x image-y)]}
+
 @defidform[key]{
 A @italic{key} is either:
 @(linebreak)
@@ -112,6 +120,10 @@ An empty pink @racket[scene].}
 @defidform[E-SCENE2]{
 An empty black @racket[scene].}
 
+
+@defidform[NO-SHOT]{
+The symbol representing no shot in the game is @racket['NO-SHOT].}
+
 @defidform[TICK-RATE]{
 The default tick rate is @racket[1/4].}
 
@@ -131,6 +143,12 @@ Draws @racket[ALIEN-IMG] in @italic{scene} at the position of @italic{alien}.}
 
 @defproc[(draw-alien-img [alien-img ci?] [alien alien?] [scene scene?]) scene?]{
 Draws @italic{alien-img} in @italic{scene} at the position of @italic{alien}.}
+
+@defproc[(draw-shot [shot shot?] [scene scene?]) scene?]{
+Draws @racket[SHOT-IMG] in @italic{scene} at the position of @italic{shot}.}
+
+@defproc[(draw-shot-img [shot-img ci?] [shot shot?] [scene scene?]) scene?]{
+Draws @italic{shot-img} in @italic{scene} at the position of @italic{shot}.}
          
 @section{Process-Key Functions}
 
@@ -139,6 +157,9 @@ Moves @italic{rocket} to the right.}
 
 @defproc[(move-rckt-left [rocket rocket?]) rocket?]{
 Moves @italic{rocket} to the left.}
+
+@defproc[(make-shot [rocket rocket?]) shot?]{
+Makes a @racket[shot] at position @italic{rocket}.}
 
 @section{Process-Tick Functions}
 
@@ -149,7 +170,10 @@ Moves the @italic{img-x<max} to the right.}
 Moves the @italic{img-x>min} to the left.}
 
 @defproc[(move-down-image-y [img-y<max image-y?]) image-y?]{
-Moves the @italic{img-y<max} to down.}
+Moves the @italic{img-y<max} down.}
+
+@defproc[(move-up-image-y [img-y>min image-y?]) image-y?]{
+Moves the @italic{img-y>min} up.}
 
 @defproc[(move-alien-right [alien alien?]) alien?]{
 Moves @italic{alien} to the right.}
@@ -158,7 +182,10 @@ Moves @italic{alien} to the right.}
 Moves @italic{alien} to the left.}
 
 @defproc[(move-alien-down [alien alien?]) alien?]{
-Moves @italic{alien} to down.}
+Moves @italic{alien} down.}
+
+@defproc[(move-shot-up [shot shot?]) shot]{
+Moves @italic{shot} up.}
 
 @defproc[(new-dir-after-down [alien alien?]) dir?]{
 Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['down].}
@@ -182,3 +209,6 @@ Returns @racket[#true] if @italic{alien} is at the left edge, otherwise @racket[
 
 @defproc[(alien-reached-earth? [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{alien} has reached Earth, otherwise @racket[#false].}
+
+@defproc[(hit? [shot shot?] [alien alien?]) boolean?]{
+Returns @racket[#true] if @italic{shot} has hit @italic{alien}, otherwise @racket[#false].}

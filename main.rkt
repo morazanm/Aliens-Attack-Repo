@@ -34,7 +34,11 @@
 
    MAX-CHARS-VERTICAL
 
+   ;;Tick rate
    TICK-RATE
+
+   ;;No Shot
+   NO-SHOT
    ;; CIs
  
    ;;Aliens
@@ -59,7 +63,10 @@
 
    draw-alien-img ;;custom image
  
-   ;;Shot Drawing Functions
+    ;;Shot Drawing Functions
+   draw-shot ;;default
+
+   draw-shot-img ;;custom image
  
 
    ;;Rocket Drawing Functions
@@ -78,6 +85,9 @@
 
    move-rckt-left
 
+   ;;Shot Creation Functions
+   make-shot
+
    ;;PROCESS-TICK FUNCTIONS
    
    ;;Moving Functions
@@ -87,12 +97,17 @@
 
    move-down-image-y
 
+   move-up-image-y
+   
    ;;Alien Moving Functions
    move-alien-right
 
    move-alien-left
 
    move-alien-down
+
+   ;;Shot Moving Functions
+   move-shot-up
 
 
    ;;Direction Functions
@@ -107,6 +122,9 @@
    ;;Image Predicates
    ci?
 
+   ;;Shot Predicates
+   hit?
+   
    ;;Alien Predicates
    alien-at-right-edge?
 
