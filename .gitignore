@@ -8,14 +8,14 @@
 
 
 # Racket compiled files
-*/compiled/
-*/doc/
+compiled/
+doc/
 
 
 # scribble files
-*/scribblings/
+scribblings/
 *.css
 *.js
 *.rktd
 *.sxref
-*.html
+AliensAttack.html

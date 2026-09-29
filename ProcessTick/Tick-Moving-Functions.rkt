@@ -15,3 +15,7 @@
 ;; image-y<max -> image-y
 ;; Purpose: To move the given image-y<max down
 (define (move-down-image-y an-img-y<max) (add1 an-img-y<max))
+
+;; image-y>min --> image-y
+;; Purpose: To move the given image-y>min up
+(define (move-up-image-y an-img-y>min)  (sub1 an-img-y>min))

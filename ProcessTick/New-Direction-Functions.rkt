@@ -1,31 +1,36 @@
 #lang racket/base
 
-(require "../Predicates/Alien-Predicates.rkt")
+(require (only-in lang/htdp-beginner posn?)
+         "../Predicates/Alien-Predicates.rkt")
 
 (provide (all-defined-out))
 
 
-;; alien --> direction
+;;<X> alien U (listof alien) --> direction
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is down
-(define (new-dir-after-down an-alien)
-  (if (alien-at-left-edge? an-alien)
-      'right
-      'left))
+(define (new-dir-after-down X)
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+    (if (func-at-left-edge X)
+          'right
+          'left)))
+  
 
 
- ;; alien --> direction
+;; <X> alien U (listof alien) --> direction
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is left
-(define (new-dir-after-left an-alien)
-  (if (alien-at-left-edge? an-alien)
-      'down
-      'left))
+(define (new-dir-after-left X)
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+    (if (func-at-left-edge X)
+        'down
+        'left)))
 
-;; alien --> direction
+;; <X> alien U (listof alien) --> direction
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is right
-(define (new-dir-after-right an-alien)
-  (if (alien-at-right-edge? an-alien)
-      'down
-      'right))
+(define (new-dir-after-right X)
+  (let ([func-at-right-edge (if (posn? X) alien-at-right-edge? (λ (x) x))])
+    (if (func-at-right-edge X)
+        'down
+        'right)))

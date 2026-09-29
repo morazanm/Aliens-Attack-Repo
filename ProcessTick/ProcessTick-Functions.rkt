@@ -3,6 +3,7 @@
 (require "./Tick-Moving-Functions.rkt"
          "./New-Direction-Functions.rkt"
          "./Alien-Moving-Functions.rkt"
+         "./Shot-Moving-Functions.rkt"
          )
 
 (provide
@@ -13,12 +14,17 @@
 
  move-down-image-y
 
+ move-up-image-y
+
  ;;Alien Moving Functions
  move-alien-right
 
  move-alien-left
 
  move-alien-down
+
+ ;;Shot Moving Functions
+ move-shot-up
 
  ;;Direction Functions
  new-dir-after-down

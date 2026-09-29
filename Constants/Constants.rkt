@@ -3,7 +3,8 @@
 (require "./E-Scene-Constants.rkt"
          "./Image-Constants.rkt"
          "./CI-Constants.rkt"
-         "./Tick-Constants.rkt")
+         "./Tick-Constants.rkt"
+         "./Shot-Constants.rkt")
 
 (provide  
  ;; CIs
@@ -50,5 +51,7 @@
 
  ;;Tick Rate
  TICK-RATE
- 
+
+ ;;No Shot
+ NO-SHOT
  )

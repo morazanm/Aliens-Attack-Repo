@@ -1,7 +1,8 @@
 #lang racket/base
 
 (require "./Image-Predicates.rkt"
-         "./Alien-Predicates.rkt")
+         "./Alien-Predicates.rkt"
+         "./Shot-Predicates.rkt")
 
 (provide
 
@@ -14,4 +15,7 @@
  alien-at-left-edge?
 
  alien-reached-earth?
+
+ ;;Shot Predicates
+ hit?
  )
