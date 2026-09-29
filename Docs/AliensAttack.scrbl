@@ -162,7 +162,7 @@ Moves @italic{rocket} to the right.}
 Moves @italic{rocket} to the left.}
 
 @defproc[(make-shot [rocket rocket?]) shot?]{
-Makes a @racket[shot] at position @italic{rocket}.}
+Creates a @racket[shot] at position @italic{rocket}.}
 
 @section{Process-Tick Functions}
 
