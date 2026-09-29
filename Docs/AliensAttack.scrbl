@@ -151,6 +151,15 @@ Moves the @italic{img-x>min} to the left.}
 @defproc[(move-down-image-y [img-y<max image-y?]) image-y?]{
 Moves the @italic{img-y<max} to down.}
 
+@defproc[(move-alien-right [alien alien?]) alien?]{
+Moves @italic{alien} to the right.}
+
+@defproc[(move-alien-left [alien alien?]) alien?]{
+Moves @italic{alien} to the left.}
+
+@defproc[(move-alien-down [alien alien?]) alien?]{
+Moves @italic{alien} to down.}
+
 @defproc[(new-dir-after-down [alien alien?]) dir?]{
 Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['down].}
 
