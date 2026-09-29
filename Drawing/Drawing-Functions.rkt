@@ -9,7 +9,9 @@
 (provide
 
  ;;Alien Drawing Functions
- 
+ draw-alien ;;default
+
+ draw-alien-img ;;custom image
 
  ;;Shot Drawing Functions
  

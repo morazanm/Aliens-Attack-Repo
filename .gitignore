@@ -13,5 +13,9 @@
 
 
 # scribble files
-scribblings/
-
+*/scribblings/
+*.css
+*.js
+*.rktd
+*.sxref
+*.html
