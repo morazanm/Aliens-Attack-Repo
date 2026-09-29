@@ -1,6 +1,9 @@
 #lang scribble/manual
 
-@(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe (only-in lang/htdp-beginner make-posn posn?) racket (only-in typed/racket/base U Listof Boolean List)))
+@(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe
+                     (only-in lang/htdp-beginner make-posn posn?)
+                     (only-in racket sub1 *) 
+                     (only-in typed/racket/base U Listof Boolean boolean? List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
@@ -195,6 +198,7 @@ Computes the @racket[direction] of @italic{alien} when the previous @racket[dire
 
 @defproc[(new-dir-after-right [alien alien?]) dir?]{
 Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['right].}
+
 
 @section{Predicates}
 
