@@ -8,7 +8,7 @@
 
 (provide (all-defined-out))
 
-;; shot rocket --> shot
+;; rocket --> shot
 ;; Purpose: To process a shoot attempt
 (define (make-shot a-rocket)
   (make-posn a-rocket MAX-IMG-Y))
