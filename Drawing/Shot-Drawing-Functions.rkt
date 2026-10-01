@@ -6,7 +6,9 @@
          "../Constants/Shot-Constants.rkt"
          "../Constants/CI-Constants.rkt"
          "./Scene-Drawing-Functions.rkt"
-         "../Constants/Image-Constants.rkt")
+         "../Constants/Image-Constants.rkt"
+         "../Contracts/Contracts.rkt"
+          racket/contract/region)
 
 (provide (all-defined-out))
 
@@ -17,14 +19,16 @@
 
 ;; shot scene --> scene
 ;; Purpose: To draw the shot in the given scene
-(define (draw-shot a-shot scn)
+(define/contract (draw-shot a-shot scn)
+  draw-shot/c
   (if (eq? a-shot NO-SHOT)
       scn
       (draw-ci SHOT-IMG (posn-x a-shot) (posn-y a-shot) scn)))
 
 ;; shot-img shot scene --> scene
 ;; Purpose: To draw the shot in the given scene
-(define (draw-shot-img shot-img a-shot scn)
+(define/contract (draw-shot-img shot-img a-shot scn)
+  draw-shot-img/c
   (if (eq? a-shot NO-SHOT)
       scn
       (draw-ci shot-img (posn-x a-shot) (posn-y a-shot) scn)))

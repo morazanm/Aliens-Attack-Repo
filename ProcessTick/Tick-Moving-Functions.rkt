@@ -29,4 +29,6 @@
 
 ;; image-y>min --> image-y
 ;; Purpose: To move the given image-y>min up
-(define (move-up-image-y an-img-y>min)  (sub1 an-img-y>min))
+(define/contract (move-up-image-y an-img-y>min)
+  move-down-image-y/c
+  (sub1 an-img-y>min))

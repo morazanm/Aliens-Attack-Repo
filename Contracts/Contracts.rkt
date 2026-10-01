@@ -41,7 +41,19 @@
 
          is-alien/c
          is-scene/c
-         is-dir/c)
+         is-dir/c
+
+         move-up-image-y/c
+         draw-shot/c
+         draw-shot-img/c
+         make-shot/c
+         hit?/c
+         move-shot-up/c
+         move-alien-left/c
+         move-alien-right/c
+         move-alien-down/c
+
+         )
 
 
 ;; formatting functions 
@@ -222,6 +234,23 @@
                             blame val
                             (type-arg-formatter func-name "an alien" val)))))))))
 
+;; contract
+;; Purpose: Determine if the input is an alien or list of alien
+(define (is-alien-OR-loa/c func-name)
+  (make-flat-contract
+   #:name 'is-alienOR-loa?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (or (list? val)
+                            (and (posn? val)
+                                 (within-max-chars-hori/c (posn-x val))
+                                 (within-max-chars-vert/c (posn-y val))))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "an alien or (listof alien)" val)))))))))
+
 
 ;; contract
 ;; Purpose: Determine if the input is a scene
@@ -257,6 +286,23 @@
                             blame val
                             (type-arg-formatter func-name "a dir" val)))))))))
 
+;; contract
+;; Purpose: Determine if the input is a shot
+(define (is-shot/c func-name)
+  (make-flat-contract
+   #:name 'is-shot?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (or (eq? 'NO-SHOT val)
+                            (eq? 'no-shot val)
+                            (and (posn? val)
+                                 (within-max-chars-hori/c (posn-x val))
+                                 (within-max-chars-vert/c (posn-y val))))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "a shot" val)))))))))
 
 
 ;;;; FUNCTION CONTRACTS
@@ -296,4 +342,25 @@
 (define alien-at-left-edge?/c (-> (is-alien/c "alien-at-left-edge?") boolean?))
 
 (define alien-reached-earth?/c (-> (is-alien/c "alien-reached-earth?") boolean?))
- 
+
+
+(define move-up-image-y/c (-> (is-img-y/c "move-up-image-y") (is-img-y/c "move-up-image-y")))
+
+(define draw-shot/c (-> (is-shot/c "draw-shot") (is-scene/c "draw-shot") (is-result-img/c "draw-shot")))
+
+(define draw-shot-img/c (-> (is-img&ci/c "draw-shot-img") (is-shot/c "draw-shot") (is-scene/c "draw-shot") (is-result-img/c "draw-shot")))
+
+(define make-shot/c (-> (is-img-x/c "make-shot") (is-shot/c "make-shot")))
+
+(define hit?/c (-> (is-shot/c "make-shot") (is-alien/c "make-shot") boolean?))
+
+(define move-shot-up/c (-> (is-shot/c "move-shot-up") (is-shot/c "move-shot-up")))
+
+(define move-alien-left/c (-> (is-alien/c "move-alien-left") (is-alien/c "move-alien-left")))
+
+(define move-alien-right/c (-> (is-alien/c "move-alien-right") (is-alien/c "move-alien-right")))
+
+(define move-alien-down/c (-> (is-alien/c "move-alien-down") (is-alien/c "move-alien-down")))
+
+
+
