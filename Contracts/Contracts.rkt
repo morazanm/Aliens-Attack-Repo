@@ -35,9 +35,9 @@
          new-dir-after-down/c
          new-dir-after-left/c
          new-dir-after-right/c
-         alien-at-right-edge/c
-         alien-at-left-edge/c
-         alien-reached-earth/c
+         alien-at-right-edge?/c
+         alien-at-left-edge?/c
+         alien-reached-earth?/c
 
          is-alien/c
          is-scene/c
@@ -50,7 +50,7 @@
         [(image? value) (format "~a" message)]
         [else (format "~a: ~a" message value)]))
 
-(define (format-error-for-ci blame value message)
+(define (format-error-for-image-w&h blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
         [(image? value) (format "~a of width ~a and height ~a" message (image-width value) (image-height value))]
         [else (format "~a: ~a" message value)]))
@@ -79,7 +79,7 @@
                     (or (and (<= (image-width val)  MAX-CI-WIDTH)
                              (<= (image-height val) MAX-CI-HEIGHT))
                         ((λ ()
-                           (current-blame-format format-error-for-ci)
+                           (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
                             blame
                             val
@@ -199,7 +199,7 @@
                              (<= (image-width val)  MAX-CI-WIDTH)
                              (<= (image-height val) MAX-CI-HEIGHT))
                         ((λ ()
-                           (current-blame-format format-error-for-ci)
+                           (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
                             blame
                             val
@@ -234,7 +234,7 @@
                              (= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
                              (= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
                         ((λ ()
-                           (current-blame-format format-error)
+                           (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
                             blame val
                             (type-arg-formatter func-name "a scene" val)))))))))
@@ -275,9 +275,9 @@
 
 
 
-(define draw-alien/c (-> (is-alien/c "draw-alien") (is-result-img/c "draw-alien")))
+(define draw-alien/c (-> (is-alien/c "draw-alien") (is-scene/c "draw-alien") (is-result-img/c "draw-alien")))
 
-(define draw-alien-img/c (-> (is-alien/c "draw-alien") (is-scene/c "draw-alien") (is-result-img/c "draw-alien")))
+(define draw-alien-img/c (-> (is-img&ci/c "draw-alien-img") (is-alien/c "draw-alien-img") (is-scene/c "draw-alien-img") (is-result-img/c "draw-alien-img")))
 
 (define move-right-image-x/c (-> (is-img-x/c "move-right-image-x") (is-img-x/c "move-right-image-x")))
 
@@ -291,9 +291,9 @@
 
 (define new-dir-after-right/c (-> (is-alien/c "new-dir-after-right") (is-dir/c "new-dir-after-right")))
 
-(define alien-at-right-edge/c (-> (is-alien/c "alien-at-right-edge?") boolean?))
+(define alien-at-right-edge?/c (-> (is-alien/c "alien-at-right-edge?") boolean?))
 
-(define alien-at-left-edge/c (-> (is-alien/c "alien-at-left-edge?") boolean?))
+(define alien-at-left-edge?/c (-> (is-alien/c "alien-at-left-edge?") boolean?))
 
-(define alien-reached-earth/c (-> (is-alien/c "alien-reached-earth?") boolean?))
+(define alien-reached-earth?/c (-> (is-alien/c "alien-reached-earth?") boolean?))
  
