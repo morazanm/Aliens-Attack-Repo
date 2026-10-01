@@ -6,13 +6,22 @@
          rackunit
          ;"../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
+         "../Constants/Shot-Constants.rkt"
          "../Constants/Image-Constants.rkt"
          ;"../Drawing/Scene-Drawing-Functions.rkt"
          ;"../Drawing/Rocket-Drawing-Functions.rkt"
          ;"../ProcessKey/Rocket-Moving-Functions.rkt"
          )
 
-(provide draw-ci/c
+(provide image-x?
+         image-y?
+         shot?
+         rocket?
+         alien?
+         dir?
+ 
+
+         draw-ci/c
          ci?/c
          move-rckt-right/c
          move-rckt-left/c
@@ -78,6 +87,49 @@
       (format "~a: expects ~a as input, given image" func-name arg-name)
       (format "~a: expects ~a as input, given" func-name arg-name)))
 
+
+
+;;;;;Predicates
+
+;; number -> Boolean
+;;Purpose: Determines if X is an image-x
+(define (image-x? x)
+  (and (number? x)
+       (<= 0 x (sub1 MAX-CHARS-HORIZONTAL))))
+
+;; number -> Boolean
+;;Purpose: Determines if X is an image-y
+(define (image-y? x)
+  (and (number? x)
+       (<= 0 x (sub1 MAX-CHARS-VERTICAL))))
+
+;;<X> X -> Boolean
+;;Purpose: Determines if x is a dir
+(define (dir? x)
+  (or (eq? 'right x)
+      (eq? 'left x)
+      (eq? 'down x)))
+
+;;<X> X -> Boolean
+;;Purpose: Determines if X is a rocket
+(define (rocket? val)
+  (and (number? val)
+       (image-x? val)))
+
+;; <X> X -> Boolean
+;;Purpose: Determines if X is an shot
+(define (shot? val)
+  (or (eq? NO-SHOT val)
+      (and (posn? val)
+           (image-x? (posn-x val))
+           (image-y? (posn-y val)))))
+
+;; <X> X -> boolean
+;; purpose: determines if the given value is an alien
+(define (alien? x)
+  (and (posn? x)
+       (image-x? (posn-x x))
+       (image-y? (posn-y x))))
 
 ;; CONTRACTS
 
@@ -218,6 +270,23 @@
                             (type-arg-formatter func-name "a ci" val)))))))))
 
 
+;;contract
+;;Purpose: Determine if the input is an rocket
+(define (is-rocket/c func-name)
+  (make-flat-contract
+   #:name 'is-rocket/c
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (and (number? val)
+                             (rocket? val))
+                        ((λ ()
+                           (current-blame-format format-error)
+                           (raise-blame-error
+                            blame
+                            val
+                            (type-arg-formatter func-name "a rocket" val)))
+                         )))))) #|specify the issue if it fails, i.e. if its a number but not a rocket what should you tell the student|#
+
 ;; contract
 ;; Purpose: Determine if the input is an alien
 (define (is-alien/c func-name)
@@ -277,9 +346,7 @@
    #:name 'is-dir?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (or (eq? 'right val)
-                            (eq? 'left val)
-                            (eq? 'down val))
+                    (or (dir? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -293,11 +360,7 @@
    #:name 'is-shot?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (or (eq? 'NO-SHOT val)
-                            (eq? 'no-shot val)
-                            (and (posn? val)
-                                 (within-max-chars-hori/c (posn-x val))
-                                 (within-max-chars-vert/c (posn-y val))))
+                    (or (shot? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -350,7 +413,7 @@
 
 (define draw-shot-img/c (-> (is-img&ci/c "draw-shot-img") (is-shot/c "draw-shot") (is-scene/c "draw-shot") (is-result-img/c "draw-shot")))
 
-(define make-shot/c (-> (is-img-x/c "make-shot") (is-shot/c "make-shot")))
+(define make-shot/c (-> (is-shot/c "make-shot") (is-rocket/c "make-shot") (is-shot/c "make-shot")))
 
 (define hit?/c (-> (is-shot/c "make-shot") (is-alien/c "make-shot") boolean?))
 
