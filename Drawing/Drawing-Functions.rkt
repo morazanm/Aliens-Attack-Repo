@@ -14,7 +14,9 @@
  draw-alien-img ;;custom image
 
  ;;Shot Drawing Functions
- 
+ draw-shot
+
+ draw-shot-img
 
  ;;Rocket Drawing Functions
  draw-rocket ;;default

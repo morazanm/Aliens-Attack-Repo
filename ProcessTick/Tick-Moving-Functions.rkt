@@ -26,3 +26,7 @@
   (move-down-image-y an-img-y<max)
   move-down-image-y/c
   (add1 an-img-y<max))
+
+;; image-y>min --> image-y
+;; Purpose: To move the given image-y>min up
+(define (move-up-image-y an-img-y>min)  (sub1 an-img-y>min))
