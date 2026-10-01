@@ -2,8 +2,8 @@
 
 @(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe
                      (only-in lang/htdp-beginner make-posn posn?)
-                     (only-in racket sub1 *) 
-                     (only-in typed/racket/base U Listof Boolean boolean? List)))
+                     (only-in racket sub1 * boolean? listof list cons any/c number?) 
+                     (only-in typed/racket/base U Listof Boolean List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
@@ -161,8 +161,8 @@ Moves @italic{rocket} to the right.}
 @defproc[(move-rckt-left [rocket rocket?]) rocket?]{
 Moves @italic{rocket} to the left.}
 
-@defproc[(make-shot [rocket rocket?]) shot?]{
-Creates a @racket[shot] at position @italic{rocket}.}
+@defproc[(make-shot [shot shot?] [rocket rocket?]) shot?]{
+If @italic{shot} is a @racket[NO-SHOT], return @racket[NO-SHOT]. Otherwise, creates a @racket[posn] at position @italic{rocket}.}
 
 @section{Process-Tick Functions}
 
@@ -202,8 +202,29 @@ Computes the @racket[direction] of @italic{alien} when the previous @racket[dire
 
 @section{Predicates}
 
+@defproc[(scene? [img image?]) boolean?]{
+Returns @racket[#true] if @italic{img} is a @racket[scene], otherwise @racket[#false].}
+
+@defproc[(image-x? [num number?]) boolean?]{
+Returns @racket[#true] if @italic{num} is an @racket[image-x], otherwise @racket[#false].}
+
+@defproc[(image-y? [num number?]) boolean?]{
+Returns @racket[#true] if @italic{num} is an @racket[image-y], otherwise @racket[#false].}
+
 @defproc[(ci? [img image?]) boolean?]{
 Returns @racket[#true] if @italic{img} is a @racket[ci], otherwise @racket[#false].}
+
+@defproc[(rocket? [x any/c]) boolean?]{
+ Returns @racket[#true] if @italic{x} is a @racket[rocket], otherwise @racket[#false].}
+
+@defproc[(alien? [x any/c]) boolean?]{
+ Returns @racket[#true] if @italic{x} is an @racket[alien], otherwise @racket[#false].}
+
+@defproc[(shot? [x any/c]) boolean?]{
+ Returns @racket[#true] if @italic{x} is a @racket[shot], otherwise @racket[#false].}
+
+@defproc[(dir? [x any/c]) boolean?]{
+ Returns @racket[#true] if @italic{x} is a @racket[dir], otherwise @racket[#false].}
 
 @defproc[(alien-at-right-edge? [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{alien} is at the right edge, otherwise @racket[#false].}

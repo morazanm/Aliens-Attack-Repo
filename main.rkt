@@ -6,6 +6,7 @@
          "./Predicates/Predicates.rkt"
          "./ProcessTick/ProcessTick-Functions.rkt"
          "./ProcessKey/ProcessKey-Functions.rkt"
+         (only-in "./Contracts/Contracts.rkt" image-x? image-y? dir? alien? rocket? shot? scene?)
          "./GameOver/GameOver-Functions.rkt")
 
   (provide
@@ -131,4 +132,23 @@
    alien-at-left-edge?
 
    alien-reached-earth?
+   
+   ;;Shot Predicates
+   hit?   
+
+
+   ;;Other Preds
+   shot?
+
+   rocket?
+
+   alien?
+
+   dir?
+
+   image-x?
+
+   image-y?
+
+   scene?
    )
