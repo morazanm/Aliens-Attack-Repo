@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require 2htdp/image
-         racket/contract
+         racket/contract/region
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Image-Constants.rkt"
          "../Constants/CI-Constants.rkt"
