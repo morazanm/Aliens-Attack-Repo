@@ -202,6 +202,9 @@ Computes the @racket[direction] of @italic{alien} when the previous @racket[dire
 
 @section{Predicates}
 
+@defproc[(scene? [img image?]) boolean?]{
+Returns @racket[#true] if @italic{img} is a @racket[scene], otherwise @racket[#false].}
+
 @defproc[(image-x? [num number?]) boolean?]{
 Returns @racket[#true] if @italic{num} is an @racket[image-x], otherwise @racket[#false].}
 

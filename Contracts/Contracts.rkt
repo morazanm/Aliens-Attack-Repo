@@ -13,7 +13,8 @@
          ;"../ProcessKey/Rocket-Moving-Functions.rkt"
          )
 
-(provide image-x?
+(provide scene?
+         image-x?
          image-y?
          shot?
          rocket?
@@ -90,6 +91,11 @@
 
 
 ;;;;;Predicates
+
+(define (scene? x)
+  (and (image? x)
+       (= (image-width x) E-SCENE-W)
+       (= (image-height x) E-SCENE-H)))
 
 ;; number -> Boolean
 ;;Purpose: Determines if X is an image-x
