@@ -4,7 +4,9 @@
          (only-in lang/htdp-beginner posn-x posn-y empty? first rest)
          "../Constants/Image-Constants.rkt"
          "../Constants/CI-Constants.rkt"
-         "./Scene-Drawing-Functions.rkt")
+         "./Scene-Drawing-Functions.rkt"
+         "../Contracts/Contracts.rkt"
+          racket/contract/region)
 
 (provide (all-defined-out))
 
@@ -19,13 +21,15 @@
 
 ;; alien scene --> scene
 ;; Purpose: Draw the given alien in the given scene
-(define (draw-alien an-alien scn)
+(define/contract (draw-alien an-alien scn)
+  draw-alien/c
   (draw-ci ALIEN-IMG (posn-x an-alien) (posn-y an-alien) scn))
 
 
 ;; ci alien scene --> scene
 ;; Purpose: Draw the given alien in the given scene
-(define (draw-alien-img an-alien-img an-alien scn)
+(define/contract (draw-alien-img an-alien-img an-alien scn)
+  draw-alien-img/c
   (draw-ci an-alien-img (posn-x an-alien) (posn-y an-alien) scn))
 
 ;; loa scene --> scene

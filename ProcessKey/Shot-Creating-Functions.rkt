@@ -10,5 +10,6 @@
 
 ;; rocket --> shot
 ;; Purpose: To process a shoot attempt
-(define (make-shot a-rocket)
+(define/contract (make-shot a-rocket)
+  make-shot/c
   (make-posn a-rocket MAX-IMG-Y))

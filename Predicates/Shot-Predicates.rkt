@@ -1,13 +1,16 @@
 #lang racket/base
 
 (require (only-in lang/htdp-beginner posn? posn-x posn-y)
-         (only-in racket/list empty? first rest))
+         (only-in racket/list empty? first rest)
+         "../Contracts/Contracts.rkt"
+          racket/contract/region)
 
 (provide (all-defined-out))
 
 ;; shot --> Boolean
 ;; Purpose: To determine if the given shot has hit the given alien
-(define (hit? a-shot an-alien)
+(define/contract (hit? a-shot an-alien)
+  hit?/c
   (and (posn? a-shot)
        (= (posn-x a-shot) (posn-x an-alien))
        (= (posn-y a-shot) (posn-y an-alien))))
