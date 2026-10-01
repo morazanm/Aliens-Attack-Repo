@@ -23,8 +23,16 @@
 
  move-alien-down
 
+ move-loa
+
+ remove-hit-aliens
+ 
  ;;Shot Moving Functions
  move-shot-up
+
+ move-los
+
+ remove-shots
 
  ;;Direction Functions
  new-dir-after-down

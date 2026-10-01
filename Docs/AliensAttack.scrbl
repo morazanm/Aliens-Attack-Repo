@@ -2,8 +2,8 @@
 
 @(require (for-label APS-Aliens-Attack 2htdp/image 2htdp/universe
                      (only-in lang/htdp-beginner make-posn posn?)
-                     (only-in racket sub1 *) 
-                     (only-in typed/racket/base U Listof Boolean boolean? List)))
+                     (only-in racket sub1 * boolean? listof list cons) 
+                     (only-in typed/racket/base U Listof Boolean List)))
 
 @title{Aliens Attack}
 @author[(author+email "Marco T. Morazán" "morazanm@shu.edu")]
@@ -58,6 +58,12 @@ A @italic{rocket} is an @racket[image-x].}
 @defidform[alien]{
 An @italic{alien} is a @racket[posn]: @racket[(make-posn image-x image-y)].}
 
+@defidform[loa]{
+A list of aliens (loa) is either:
+@(linebreak)
+1. @racket['()]
+@(linebreak)
+2. @racket[(cons alien loa)]}
 
 @defidform[shot]{
 A @italic{shot} is either:
@@ -65,6 +71,13 @@ A @italic{shot} is either:
 1. @racket[NO-SHOT]
 @(linebreak)
 2. A @racket[posn]: @racket[(make-posn image-x image-y)]}
+
+@defidform[los]{
+A list of shots (los) is either:
+@(linebreak)
+1. @racket['()]
+@(linebreak)
+2. @racket[(cons shot los)]}
 
 @defidform[key]{
 A @italic{key} is either:
@@ -125,7 +138,7 @@ An empty black @racket[scene].}
 
 
 @defidform[NO-SHOT]{
-The symbol representing no shot in the game is @racket['NO-SHOT].}
+The symbol representing no shot in the game is @racket['no-shot].}
 
 @defidform[TICK-RATE]{
 The default tick rate is @racket[1/4].}
@@ -144,14 +157,26 @@ Draws @italic{rocket-img} in @italic{scene} at position @italic{rocket}.}
 @defproc[(draw-alien [alien alien?] [scene scene?]) scene?]{
 Draws @racket[ALIEN-IMG] in @italic{scene} at the position of @italic{alien}.}
 
+@defproc[(draw-loa [loa (listof alien?)] [scene scene?]) scene?]{
+Draws @racket[ALIEN-IMG] in @italic{scene} at the position of every @italic{alien} in @italic{loa}.}
+
 @defproc[(draw-alien-img [alien-img ci?] [alien alien?] [scene scene?]) scene?]{
 Draws @italic{alien-img} in @italic{scene} at the position of @italic{alien}.}
+
+@defproc[(draw-loa-img [alien-img ci?] [loa (listof alien?)] [scene scene?]) scene?]{
+Draws @italic{alien-img} in @italic{scene} at the position of every @italic{alien} in @italic{loa}.}
 
 @defproc[(draw-shot [shot shot?] [scene scene?]) scene?]{
 Draws @racket[SHOT-IMG] in @italic{scene} at the position of @italic{shot}.}
 
+@defproc[(draw-los [los (listof shot?)] [scene scene?]) scene?]{
+Draws @racket[SHOT-IMG] in @italic{scene} at the position of every @italic{shot} in @italic{los}.}
+
 @defproc[(draw-shot-img [shot-img ci?] [shot shot?] [scene scene?]) scene?]{
 Draws @italic{shot-img} in @italic{scene} at the position of @italic{shot}.}
+
+@defproc[(draw-los-img [shot-img ci?] [los (listof shot?)] [scene scene?]) scene?]{
+Draws @italic{shot-img} in @italic{scene} at the position of every @italic{shot} in @italic{los}.}
          
 @section{Process-Key Functions}
 
@@ -187,17 +212,32 @@ Moves @italic{alien} to the left.}
 @defproc[(move-alien-down [alien alien?]) alien?]{
 Moves @italic{alien} down.}
 
+@defproc[(move-loa [loa (listof alien?)] [dir dir?]) (listof alien?)]{
+Moves every @italic{alien} in @italic{loa} to the @italic{dir}.}
+
+@defproc[(remove-hit-aliens [loa (listof alien?)] [los (listof shot?)]) (listof alien?)]{
+Removes every @italic{alien} in @italic{loa} that was hit by any @italic{shot} in @italic{los}.}
+
 @defproc[(move-shot-up [shot shot?]) shot]{
 Moves @italic{shot} up.}
 
-@defproc[(new-dir-after-down [alien alien?]) dir?]{
-Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['down].}
+@defproc[(move-los [los (listof shot?)]) (listof shot?)]{
+Moves every @italic{shot} in @italic{los}.}
 
-@defproc[(new-dir-after-left [alien alien?]) dir?]{
-Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['left].}
+@defproc[(remove-shots [los (listof shot?)] [loa (listof alien?)]) (listof shot?)]{
+Removes every @italic{shot} in @italic{los} that is a @racket[NO-SHOT] or has hit any @italic{alien} in @italic{loa}.}
 
-@defproc[(new-dir-after-right [alien alien?]) dir?]{
-Computes the @racket[direction] of @italic{alien} when the previous @racket[direction] is @racket['right].}
+@defproc*[([(new-dir-after-down [alien alien?]) dir?]
+           [(new-dir-after-down [loa (listof alien?)]) dir?])]{
+Computes the @racket[direction] of @italic{alien}/@italic{loa} when the previous @racket[direction] is @racket['down].}
+
+@defproc*[([(new-dir-after-left [alien alien?]) dir?]
+           [(new-dir-after-left [loa (listof alien?)]) dir?])]{
+Computes the @racket[direction] of @italic{alien}/@italic{loa} when the previous @racket[direction] is @racket['left].}
+
+@defproc*[([(new-dir-after-right [alien alien?]) dir?]
+           [(new-dir-after-right [loa (listof alien?)]) dir?])]{
+Computes the @racket[direction] of @italic{alien}/@italic{loa} when the previous @racket[direction] is @racket['right].}
 
 
 @section{Predicates}
@@ -208,11 +248,29 @@ Returns @racket[#true] if @italic{img} is a @racket[ci], otherwise @racket[#fals
 @defproc[(alien-at-right-edge? [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{alien} is at the right edge, otherwise @racket[#false].}
 
+@defproc[(any-alien-at-right-edge? [loa (listof alien?)]) boolean?]{
+Returns @racket[#true] if any @italic{alien} in @italic{loa} is at the right edge, otherwise @racket[#false].}
+
 @defproc[(alien-at-left-edge? [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{alien} is at the left edge, otherwise @racket[#false].}
+
+@defproc[(any-alien-at-left-edge? [loa (listof alien?)]) boolean?]{
+Returns @racket[#true] if any @italic{alien} in @italic{loa} is at the left edge, otherwise @racket[#false].}
 
 @defproc[(alien-reached-earth? [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{alien} has reached Earth, otherwise @racket[#false].}
 
+@defproc[(any-alien-reached-earth? [loa (listof alien?)]) boolean?]{
+Returns @racket[#true] if any @italic{alien} in @italic{loa} has reached Earth, otherwise @racket[#false].}
+
+@defproc[(any-aliens-alive? [loa (listof alien?)]) boolean?]{
+Returns @racket[#true] if any @italic{alien} in @italic{loa} is alive, otherwise @racket[#false].}
+
 @defproc[(hit? [shot shot?] [alien alien?]) boolean?]{
 Returns @racket[#true] if @italic{shot} has hit @italic{alien}, otherwise @racket[#false].}
+
+@defproc[(hit-any-alien? [shot shot?] [loa (listof alien?)]) boolean?]{
+Returns @racket[#true] if @italic{shot} has hit any @italic{alien} in @italic{loa}, otherwise @racket[#false].}
+
+@defproc[(hit-by-any-shot? [alien alien?] [los (listof shot?)]) boolean?]{
+Returns @racket[#true] if @italic{alien} was hit by any @italic{shot} in @italic{los}, otherwise @racket[#false].}

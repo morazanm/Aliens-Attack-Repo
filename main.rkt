@@ -8,7 +8,7 @@
          "./ProcessKey/ProcessKey-Functions.rkt"
          "./GameOver/GameOver-Functions.rkt")
 
-  (provide
+(provide
    ;;CONSTANTS
    MIN-IMG-X
 
@@ -62,21 +62,27 @@
    draw-alien ;;default
 
    draw-alien-img ;;custom image
- 
-    ;;Shot Drawing Functions
+
+   draw-loa ;;default
+
+   draw-loa-img ;;custom image
+
+   ;;Shot Drawing Functions
    draw-shot ;;default
 
    draw-shot-img ;;custom image
- 
+
+   draw-los ;;default
+
+   draw-los-img ;;custom image
 
    ;;Rocket Drawing Functions
    draw-rocket ;;default
 
    draw-rocket-img ;;custom image
- 
 
    ;;Scene Drawing Functions
-   draw-ci 
+   draw-ci
 
    ;;PROCESS-KEY FUNCTIONS
    
@@ -106,10 +112,17 @@
 
    move-alien-down
 
+   move-loa
+
+   remove-hit-aliens
+
    ;;Shot Moving Functions
    move-shot-up
 
-
+   move-los
+   
+   remove-shots
+   
    ;;Direction Functions
    new-dir-after-down
 
@@ -122,13 +135,25 @@
    ;;Image Predicates
    ci?
 
-   ;;Shot Predicates
-   hit?
-   
    ;;Alien Predicates
    alien-at-right-edge?
 
+   any-alien-at-right-edge?
+
    alien-at-left-edge?
 
+   any-alien-at-left-edge?
+
    alien-reached-earth?
+
+   any-alien-reached-earth?
+
+   any-aliens-alive?
+
+   ;;Shot Predicates
+   hit?
+
+   hit-by-any-shot?
+
+   hit-any-alien?
    )

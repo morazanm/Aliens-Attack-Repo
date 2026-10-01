@@ -10,7 +10,7 @@
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is down
 (define (new-dir-after-down X)
-  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? any-alien-at-left-edge?)])
     (if (func-at-left-edge X)
           'right
           'left)))
@@ -21,7 +21,7 @@
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is left
 (define (new-dir-after-left X)
-  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? any-alien-at-left-edge?)])
     (if (func-at-left-edge X)
         'down
         'left)))
@@ -30,7 +30,7 @@
 ;; Purpose: Compute the direction of the given alien
 ;;          when previous direction is right
 (define (new-dir-after-right X)
-  (let ([func-at-right-edge (if (posn? X) alien-at-right-edge? (λ (x) x))])
+  (let ([func-at-right-edge (if (posn? X) alien-at-right-edge? any-alien-at-right-edge?)])
     (if (func-at-right-edge X)
         'down
         'right)))
