@@ -6,14 +6,15 @@
          "./Tick-Moving-Functions.rkt"
          "../Predicates/Shot-Predicates.rkt"
          "../Contracts/Contracts.rkt"
-          racket/contract/region)
+         (only-in racket/list filter-not)
+         racket/contract/region)
 
 (provide (all-defined-out))
 
 
 ;;Shot -> Shot
 ;;Purpose: Moves the given shot to the right
-(define/contract (move-shot-up a-shot)
+(define/contract (move-shot a-shot)
   move-shot-up/c
   (cond [(eq? a-shot NO-SHOT) a-shot]
         [(= (posn-y a-shot) MIN-IMG-Y) NO-SHOT]
@@ -23,16 +24,11 @@
 ;; los --> los
 ;; Purpose: To move the given list of shots
 (define (move-los a-los)
-  (if (empty? a-los)
-      '()
-      (cons (move-shot-up (first a-los))
-            (move-los  (rest a-los)))))
+  (map move-shot a-los))
 
 ;; los loa --> los
 ;; Purpose: To remove hit and NO-SHOTs from the given los
 (define (remove-shots a-los a-loa)
-  (cond [(empty? a-los) a-los]
-        [(or (eq? (first a-los) NO-SHOT)
-             (hit-any-alien? (first a-los) a-loa))
-         (remove-shots (rest a-los) a-loa)]
-        [else (cons (first a-los) (remove-shots (rest a-los) a-loa))]))
+  (filter-not (λ (shot) (or (eq? shot NO-SHOT)
+                        (hit-any-alien? shot a-loa)))
+          a-los))

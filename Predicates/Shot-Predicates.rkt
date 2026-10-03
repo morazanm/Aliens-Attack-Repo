@@ -1,7 +1,6 @@
 #lang racket/base
 
 (require (only-in lang/htdp-beginner posn? posn-x posn-y)
-         (only-in racket/list empty? first rest)
          "../Contracts/Contracts.rkt"
           racket/contract/region)
 
@@ -18,13 +17,9 @@
 ;; alien los --> Boolean
 ;; Purpose: To determine if the given alien is hit by any shot in the given los
 (define (hit-by-any-shot? an-alien a-los)
-  (and (not (empty? a-los))
-       (or (hit? (first a-los) an-alien)
-           (hit-by-any-shot? an-alien (rest a-los)))))
+  (ormap (λ (shot) (hit? shot an-alien)) a-los))
 
 ;; shot loa --> Boolean
 ;; Purpose: To determine if the given shot has hit any alien in the given loa
 (define (hit-any-alien? a-shot a-loa)
-  (and (not (empty? a-loa))
-       (or (hit? a-shot (first a-loa))
-           (hit-any-alien? a-shot (rest a-loa)))))
+  (ormap (λ (alien) (hit? a-shot alien)) a-loa))

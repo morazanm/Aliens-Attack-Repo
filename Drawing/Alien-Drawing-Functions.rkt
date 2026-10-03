@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require 2htdp/image
+(require (only-in 2htdp/image overlay text circle)
          (only-in lang/htdp-beginner posn-x posn-y empty? first rest)
          "../Constants/Image-Constants.rkt"
          "../Constants/CI-Constants.rkt"

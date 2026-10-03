@@ -29,7 +29,7 @@
  remove-hit-aliens
  
  ;;Shot Moving Functions
- move-shot-up
+ move-shot
 
  move-los
 

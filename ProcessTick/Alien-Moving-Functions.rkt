@@ -40,17 +40,10 @@
 ;; loa dir --> loa
 ;; Purpose: To move the given loa in the given dir
 (define (move-loa a-loa dir)
-  (if (empty? a-loa)
-      '()
-      (cons (move-alien (first a-loa) dir)
-            (move-loa (rest a-loa) dir))))
+  (map (λ (alien) (move-alien alien dir)) a-loa))
 
 ;; loa los --> loa
 ;; Purpose: To remove the aliens from the given loa hit by any shot in the given los
 (define (remove-hit-aliens a-loa a-los)
-  (cond [(empty? a-loa) '()]
-        [(hit-by-any-shot? (first a-loa) a-los)
-         (remove-hit-aliens (rest a-loa) a-los)]
-        [else (cons (first a-loa)
-                    (remove-hit-aliens (rest a-loa) a-los))]))
+  (filter (λ (alien) (not (hit-by-any-shot? alien a-los))) a-loa))
 

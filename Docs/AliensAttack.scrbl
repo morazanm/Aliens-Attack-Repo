@@ -186,7 +186,7 @@ Moves @italic{rocket} to the right.}
 @defproc[(move-rckt-left [rocket rocket?]) rocket?]{
 Moves @italic{rocket} to the left.}
 
-@defproc[(make-shot [shot shot?] [rocket rocket?]) shot?]{
+@defproc[(process-shooting [shot shot?] [rocket rocket?]) shot?]{
 If @italic{shot} is a @racket[NO-SHOT], return @racket[NO-SHOT]. Otherwise, creates a @racket[posn] at position @italic{rocket}.}
 
 @section{Process-Tick Functions}
@@ -218,7 +218,7 @@ Moves every @italic{alien} in @italic{loa} to the @italic{dir}.}
 @defproc[(remove-hit-aliens [loa (listof alien?)] [los (listof shot?)]) (listof alien?)]{
 Removes every @italic{alien} in @italic{loa} that was hit by any @italic{shot} in @italic{los}.}
 
-@defproc[(move-shot-up [shot shot?]) shot]{
+@defproc[(move-shot [shot shot?]) shot]{
 Moves @italic{shot} up.}
 
 @defproc[(move-los [los (listof shot?)]) (listof shot?)]{

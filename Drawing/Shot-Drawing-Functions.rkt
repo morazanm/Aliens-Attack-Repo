@@ -1,7 +1,7 @@
 #lang racket/base
 
 
-(require 2htdp/image
+(require (only-in 2htdp/image radial-star)
          (only-in lang/htdp-beginner posn-x posn-y empty? first rest)
          "../Constants/Shot-Constants.rkt"
          "../Constants/CI-Constants.rkt"

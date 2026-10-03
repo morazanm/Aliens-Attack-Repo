@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require "../Constants/E-Scene-Constants.rkt"
-         (only-in lang/htdp-beginner empty? first rest posn-x posn-y)
+         (only-in lang/htdp-beginner empty? posn-x posn-y)
          "../Contracts/Contracts.rkt"
           racket/contract/region)
 
@@ -16,9 +16,7 @@
 ;; loa --> Boolean
 ;; Purpose: To determine if any alien is at scene's right edge
 (define (any-alien-at-right-edge? a-loa)
-  (and (not (empty? a-loa))
-       (or (alien-at-right-edge? (first a-loa))
-           (any-alien-at-right-edge? (rest a-loa)))))
+  (ormap alien-at-right-edge? a-loa))
 
 ;; alien --> Boolean
 ;; Purpose: Determine if he given alien is at the left edge
@@ -29,9 +27,7 @@
 ;; loa --> Boolean
 ;; Purpose: To determine if any alien is at scene's left edge
 (define (any-alien-at-left-edge? a-loa)
-  (and (not (empty? a-loa))
-       (or (alien-at-left-edge? (first a-loa))
-           (any-alien-at-left-edge? (rest a-loa)))))
+  (ormap alien-at-left-edge? a-loa))
 
 
 ;; alien --> Boolean
@@ -43,9 +39,7 @@
 ;; loa --> Boolean
 ;; Purpose: Determine if any alien has reached earth
 (define (any-alien-reached-earth? a-loa)
-  (and (not (empty? a-loa))
-       (or (alien-reached-earth? (first a-loa))
-           (any-alien-reached-earth? (rest a-loa)))))
+  (ormap alien-reached-earth? a-loa))
 
 ;; loa --> Boolean
 ;; Purpose: Determine if there is a posn alien in the given loa

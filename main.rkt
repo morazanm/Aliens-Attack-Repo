@@ -93,7 +93,7 @@
    move-rckt-left
 
    ;;Shot Creation Functions
-   make-shot
+   process-shooting
 
    ;;PROCESS-TICK FUNCTIONS
    
@@ -118,7 +118,7 @@
    remove-hit-aliens
 
    ;;Shot Moving Functions
-   move-shot-up
+   move-shot
 
    move-los
    
