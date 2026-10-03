@@ -1,4 +1,4 @@
-# Aliens Attack
+# Aliens Attack [![Build and Test Status](https://github.com/morazanm/Aliens-Attack-Repo/actions/workflows/ci.yml/badge.svg)](https://github.com/morazanm/Aliens-Attack-Repo/actions/workflows/ci.yml)
 A teachpack for Aliens Attack.
 
 ## Installation
