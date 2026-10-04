@@ -1,11 +1,10 @@
 #lang racket/base
 
 (require 2htdp/image
-         rackunit
+         (only-in rackunit check-false check-pred check-equal?)
          "../../Predicates/Image-Predicates.rkt"
          "../../Drawing/Alien-Drawing-Functions.rkt"
          "../../Drawing/Shot-Drawing-Functions.rkt"
-         "../../Drawing/Rocket-Drawing-Functions.rkt"
          "../../Constants/Constants.rkt"
          "../../Constants/Image-Constants.rkt")
 

@@ -1,7 +1,8 @@
 #lang racket/base
 
-(require lang/htdp-beginner
+(require (only-in lang/htdp-beginner posn-x posn-y make-posn first rest empty?)
          "./Tick-Moving-Functions.rkt"
+         "../Predicates/Shot-Predicates.rkt"
          "../Contracts/Contracts.rkt"
           racket/contract/region)
 
@@ -27,3 +28,22 @@
 (define/contract (move-alien-down an-alien)
   move-alien-down/c
   (make-posn (posn-x an-alien) (move-down-image-y (posn-y an-alien))))
+
+;; alien dir --> alien
+;; Purpose: Move given alien in given direction
+(define (move-alien an-alien a-dir)
+  (cond [(eq? a-dir 'right) (move-alien-right an-alien)]
+        [(eq? a-dir 'left) (move-alien-left an-alien)]
+        [else (move-alien-down an-alien)]))
+
+
+;; loa dir --> loa
+;; Purpose: To move the given loa in the given dir
+(define (move-loa a-loa dir)
+  (map (λ (alien) (move-alien alien dir)) a-loa))
+
+;; loa los --> loa
+;; Purpose: To remove the aliens from the given loa hit by any shot in the given los
+(define (remove-hit-aliens a-loa a-los)
+  (filter (λ (alien) (not (hit-by-any-shot? alien a-los))) a-loa))
+

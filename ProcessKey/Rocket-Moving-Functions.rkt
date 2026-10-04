@@ -3,7 +3,7 @@
 
 (require "../Constants/E-Scene-Constants.rkt"
          "../Contracts/Contracts.rkt"
-         racket/contract)
+         racket/contract/region)
 
 (provide (all-defined-out))
 

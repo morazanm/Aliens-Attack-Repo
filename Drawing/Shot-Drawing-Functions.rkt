@@ -1,8 +1,8 @@
 #lang racket/base
 
 
-(require 2htdp/image
-         (only-in lang/htdp-beginner posn-x posn-y)
+(require (only-in 2htdp/image radial-star)
+         (only-in lang/htdp-beginner posn-x posn-y empty? first rest)
          "../Constants/Shot-Constants.rkt"
          "../Constants/CI-Constants.rkt"
          "./Scene-Drawing-Functions.rkt"
@@ -32,3 +32,17 @@
   (if (eq? a-shot NO-SHOT)
       scn
       (draw-ci shot-img (posn-x a-shot) (posn-y a-shot) scn)))
+
+;; los scene --> scene
+;; Purpose: To draw the given los in the given scene
+(define (draw-los a-los scn)
+  (if (empty? a-los)
+      scn
+      (draw-shot (first a-los) (draw-los (rest a-los) scn))))
+
+;; ci los scene --> scene
+;; Purpose: To draw the given los in the given scene
+(define (draw-los-img shot-img a-los scn)
+  (if (empty? a-los)
+      scn
+      (draw-shot-img shot-img (first a-los) (draw-los (rest a-los) scn))))

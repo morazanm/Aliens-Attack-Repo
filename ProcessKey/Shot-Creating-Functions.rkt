@@ -7,7 +7,7 @@
          "../Contracts/Contracts.rkt"
          racket/contract/region)
 
-(provide (all-defined-out))
+(provide (rename-out [make-shot process-shooting]))
 
 ;; shot rocket --> shot
 ;; Purpose: To process a shoot attempt
