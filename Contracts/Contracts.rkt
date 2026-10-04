@@ -137,6 +137,13 @@
        (image-x? (posn-x x))
        (image-y? (posn-y x))))
 
+;; image -> boolean
+;; purpose: determines if the given image is a ci
+(define (ci? val)
+  (and (<= (image-width val)  MAX-CI-WIDTH)
+       (<= (image-height val) MAX-CI-HEIGHT)))
+
+
 ;; CONTRACTS
 
 ;;contract
@@ -146,8 +153,7 @@
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (<= (image-width val)  MAX-CI-WIDTH)
-                             (<= (image-height val) MAX-CI-HEIGHT))
+                    (or (ci? val)
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
@@ -187,10 +193,6 @@
                             (format "~a should return image, instead returned ~a. please contact developers" func-name val)))))))))
 
 
-
-(define within-max-chars-hori/c (integer-in 0 (sub1 MAX-CHARS-HORIZONTAL)))
-(define within-max-chars-vert/c (integer-in 0 (sub1 MAX-CHARS-VERTICAL)))
-
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
 (define (is-img-y/c func-name)
@@ -198,7 +200,7 @@
    #:name 'is-img-y?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (within-max-chars-vert/c val)
+                    (or (image-y? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -214,7 +216,7 @@
    #:name 'is-img-x?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (within-max-chars-hori/c val)
+                    (or (image-x? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -266,8 +268,7 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (<= (image-width val)  MAX-CI-WIDTH)
-                             (<= (image-height val) MAX-CI-HEIGHT))
+                             (ci? val))
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
@@ -300,9 +301,7 @@
    #:name 'is-alien?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (posn? val)
-                             (within-max-chars-hori/c (posn-x val))
-                             (within-max-chars-vert/c (posn-y val)))
+                    (or (alien? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -317,9 +316,7 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (or (list? val)
-                            (and (posn? val)
-                                 (within-max-chars-hori/c (posn-x val))
-                                 (within-max-chars-vert/c (posn-y val))))
+                            (alien? val))
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -334,9 +331,7 @@
    #:name 'is-scene?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (image? val)
-                             (= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
-                             (= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
+                    (or (scene? val)
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
