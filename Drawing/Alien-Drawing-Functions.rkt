@@ -34,14 +34,16 @@
 
 ;; loa scene --> scene
 ;; Purpose: To draw the given loa in the given scene
-(define (draw-loa a-loa scn)
+(define/contract (draw-loa a-loa scn)
+  draw-loa/c
   (if (empty? a-loa)
       scn
       (draw-alien (first a-loa) (draw-loa (rest a-loa) scn))))
 
 ;; ci loa scene --> scene
 ;; Purpose: To draw the given loa in the given scene
-(define (draw-loa-img an-alien-img a-loa scn)
+(define/contract (draw-loa-img an-alien-img a-loa scn)
+  draw-loa-img/c
   (if (empty? a-loa)
       scn
       (draw-alien-img an-alien-img (first a-loa) (draw-loa-img an-alien-img (rest a-loa) scn))))

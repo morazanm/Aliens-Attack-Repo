@@ -35,14 +35,16 @@
 
 ;; los scene --> scene
 ;; Purpose: To draw the given los in the given scene
-(define (draw-los a-los scn)
+(define/contract (draw-los a-los scn)
+  draw-los/c
   (if (empty? a-los)
       scn
       (draw-shot (first a-los) (draw-los (rest a-los) scn))))
 
 ;; ci los scene --> scene
 ;; Purpose: To draw the given los in the given scene
-(define (draw-los-img shot-img a-los scn)
+(define/contract (draw-los-img shot-img a-los scn)
+  draw-los-img/c
   (if (empty? a-los)
       scn
       (draw-shot-img shot-img (first a-los) (draw-los (rest a-los) scn))))

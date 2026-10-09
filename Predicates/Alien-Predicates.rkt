@@ -15,7 +15,8 @@
 
 ;; loa --> Boolean
 ;; Purpose: To determine if any alien is at scene's right edge
-(define (any-alien-at-right-edge? a-loa)
+(define/contract (any-alien-at-right-edge? a-loa)
+  any-alien-at-right-edge?/c
   (ormap alien-at-right-edge? a-loa))
 
 ;; alien --> Boolean
@@ -26,7 +27,8 @@
 
 ;; loa --> Boolean
 ;; Purpose: To determine if any alien is at scene's left edge
-(define (any-alien-at-left-edge? a-loa)
+(define/contract (any-alien-at-left-edge? a-loa)
+  any-alien-at-left-edge?/c
   (ormap alien-at-left-edge? a-loa))
 
 
@@ -38,10 +40,13 @@
 
 ;; loa --> Boolean
 ;; Purpose: Determine if any alien has reached earth
-(define (any-alien-reached-earth? a-loa)
+(define/contract (any-alien-reached-earth? a-loa)
+  any-alien-reached-earth?/c
   (ormap alien-reached-earth? a-loa))
 
 ;; loa --> Boolean
 ;; Purpose: Determine if there is a posn alien in the given loa
-(define (any-aliens-alive? a-loa) (not (empty? a-loa)))
+(define/contract (any-aliens-alive? a-loa)
+  any-aliens-alive?/c
+  (not (empty? a-loa)))
 

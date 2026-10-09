@@ -31,7 +31,8 @@
 
 ;; alien dir --> alien
 ;; Purpose: Move given alien in given direction
-(define (move-alien an-alien a-dir)
+(define/contract (move-alien an-alien a-dir)
+  move-alien/c
   (cond [(eq? a-dir 'right) (move-alien-right an-alien)]
         [(eq? a-dir 'left) (move-alien-left an-alien)]
         [else (move-alien-down an-alien)]))
@@ -39,11 +40,13 @@
 
 ;; loa dir --> loa
 ;; Purpose: To move the given loa in the given dir
-(define (move-loa a-loa dir)
+(define/contract (move-loa a-loa dir)
+  move-loa/c
   (map (λ (alien) (move-alien alien dir)) a-loa))
 
 ;; loa los --> loa
 ;; Purpose: To remove the aliens from the given loa hit by any shot in the given los
-(define (remove-hit-aliens a-loa a-los)
+(define/contract (remove-hit-aliens a-loa a-los)
+  remove-hit-aliens/c
   (filter (λ (alien) (not (hit-by-any-shot? alien a-los))) a-loa))
 

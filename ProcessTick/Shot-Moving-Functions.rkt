@@ -23,12 +23,14 @@
 
 ;; los --> los
 ;; Purpose: To move the given list of shots
-(define (move-los a-los)
+(define/contract (move-los a-los)
+  move-los/c
   (map move-shot a-los))
 
 ;; los loa --> los
 ;; Purpose: To remove hit and NO-SHOTs from the given los
-(define (remove-shots a-los a-loa)
+(define/contract (remove-shots a-los a-loa)
+  remove-shots/c
   (filter-not (λ (shot) (or (eq? shot NO-SHOT)
                         (hit-any-alien? shot a-loa)))
           a-los))
