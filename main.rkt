@@ -93,6 +93,8 @@
    move-rckt-left
 
    ;;Shot Creation Functions
+   make-shot
+   
    process-shooting
 
    ;;PROCESS-TICK FUNCTIONS
@@ -157,10 +159,6 @@
    hit-by-any-shot?
 
    hit-any-alien?
-   
-   ;;Shot Predicates
-   hit?   
-
 
    ;;Other Preds
    shot?

@@ -186,8 +186,11 @@ Moves @italic{rocket} to the right.}
 @defproc[(move-rckt-left [rocket rocket?]) rocket?]{
 Moves @italic{rocket} to the left.}
 
-@defproc[(process-shooting [shot shot?] [rocket rocket?]) shot?]{
+@defproc[(make-shot [shot shot?] [rocket rocket?]) shot?]{
 If @italic{shot} is a @racket[NO-SHOT], return @racket[NO-SHOT]. Otherwise, creates a @racket[posn] at position @italic{rocket}.}
+
+@defproc[(process-shooting [rocket rocket?]) shot?]{
+Creates a @racket[posn] at position @italic{rocket}.}
 
 @section{Process-Tick Functions}
 

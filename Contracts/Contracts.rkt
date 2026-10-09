@@ -20,6 +20,7 @@
          rocket?
          alien?
          dir?
+         
  
 
          draw-ci/c
@@ -57,6 +58,7 @@
          draw-shot/c
          draw-shot-img/c
          make-shot/c
+         process-shooting/c
          hit?/c
          move-shot-up/c
          move-alien-left/c
@@ -500,9 +502,9 @@
 
 (define draw-shot-img/c (-> (is-img&ci/c "draw-shot-img") (is-shot/c "draw-shot") (is-scene/c "draw-shot") (is-result-img/c "draw-shot")))
 
-;(define make-shot/c (-> (is-shot/c "make-shot") (is-rocket/c "make-shot") (is-shot/c "make-shot")))
+(define make-shot/c (-> (is-shot/c "make-shot") (is-rocket/c "make-shot") (is-shot/c "make-shot")))
 
-(define make-shot/c (-> (is-shot/c "process-shooting") (is-rocket/c "process-shooting") (is-shot/c "process-shooting")))
+(define process-shooting/c (-> (is-rocket/c "process-shooting") (is-shot/c "process-shooting")))
 
 (define hit?/c (-> (is-shot/c "hit?") (is-alien/c "hit?") boolean?))
 
