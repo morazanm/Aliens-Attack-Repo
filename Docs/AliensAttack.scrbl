@@ -221,6 +221,9 @@ Moves every @italic{alien} in @italic{loa} to the @italic{dir}.}
 @defproc[(remove-hit-aliens [loa (listof alien?)] [los (listof shot?)]) (listof alien?)]{
 Removes every @italic{alien} in @italic{loa} that was hit by any @italic{shot} in @italic{los}.}
 
+@defproc[(move-shot-up [shot shot?]) shot]{
+Moves @italic{shot} up.}
+
 @defproc[(move-shot [shot shot?]) shot]{
 Moves @italic{shot} up.}
 

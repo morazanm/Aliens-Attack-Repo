@@ -61,6 +61,7 @@
          process-shooting/c
          hit?/c
          move-shot-up/c
+         move-shot/c
          move-alien-left/c
          move-alien-right/c
          move-alien-down/c
@@ -509,6 +510,8 @@
 (define hit?/c (-> (is-shot/c "hit?") (is-alien/c "hit?") boolean?))
 
 (define move-shot-up/c (-> (is-shot/c "move-shot-up") (is-shot/c "move-shot-up")))
+
+(define move-shot/c (-> (is-shot/c "move-shot") (is-shot/c "move-shot")))
 
 (define move-alien-left/c (-> (is-alien/c "move-alien-left") (is-alien/c "move-alien-left")))
 

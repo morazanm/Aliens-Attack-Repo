@@ -31,6 +31,8 @@
  ;;Shot Moving Functions
  move-shot
 
+ move-shot-up
+
  move-los
 
  remove-shots

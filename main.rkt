@@ -122,6 +122,8 @@
    ;;Shot Moving Functions
    move-shot
 
+   move-shot-up ;;should be removed
+
    move-los
    
    remove-shots
