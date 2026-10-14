@@ -10,7 +10,7 @@ jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    name: Build and Run Tests on stable Racket
+    name: Build and Run Tests on Stable Racket Release
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout 
@@ -21,11 +21,12 @@ jobs:
         with:
           architecture: 'x64'
           distribution: 'full' # or: 'minimal'
-          variant: 'CS' # Taken from `racket-variant: ["CS"]`
-          version: 'stable' # Taken from `racket-version: ["stable"]`
+          variant: 'CS' 
+          version: 'stable' 
       # Build APS-Aliens-Attack
       - name: Build Aliens Attack teachpack
-        run: xvfb-run raco pkg install 
+        run: raco pkg install 
       # Kick off the tests
       - name: Run tests
-        run: xvfb-run -a raco test --quiet -t AliensAttack-test 
+        run: raco test --quiet -t AliensAttack-test 
+      # Thank you Andres for the outline
