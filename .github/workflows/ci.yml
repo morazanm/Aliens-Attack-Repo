@@ -10,23 +10,19 @@ jobs:
   test:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        racket-variant: ["CS"]  
-        racket-version: ["stable"]
-    name: Build and Run Tests on ${{ matrix.racket-variant }} Racket
+    name: Build and Run Tests on stable Racket
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       - name: Checkout 
         uses: actions/checkout@main
 
       - name: Install Racket and Raco 
-        uses: Bogdanp/setup-racket@v1.8.1 # see https://github.com/Bogdanp/setup-racket for more info
+        uses: Bogdanp/setup-racket@v1.16 # see https://github.com/Bogdanp/setup-racket for more info
         with:
           architecture: 'x64'
           distribution: 'full' # or: 'minimal'
-          variant: ${{ matrix.racket-variant }} # Taken from `racket-variant: ["CS"]`
-          version: ${{ matrix.racket-version }} # Taken from `racket-version: ["stable"]`
+          variant: 'CS' # Taken from `racket-variant: ["CS"]`
+          version: 'stable' # Taken from `racket-version: ["stable"]`
       # Build APS-Aliens-Attack
       - name: Build Aliens Attack teachpack
         run: xvfb-run raco pkg install 
