@@ -1,7 +1,7 @@
 #lang racket/base
 
 
-(require 2htdp/image
+(require (only-in 2htdp/image place-image)
          racket/contract/region
          "../Constants/Image-Constants.rkt"
          "../Contracts/Contracts.rkt")

@@ -13,10 +13,18 @@
 
  draw-alien-img ;;custom image
 
- ;;Shot Drawing Functions
- draw-shot
+ draw-loa ;;default
 
- draw-shot-img
+ draw-loa-img ;;custom image
+
+ ;;Shot Drawing Functions
+ draw-shot ;;default
+
+ draw-shot-img ;;custom image
+
+ draw-los ;;default
+
+ draw-los-img ;;custom image
 
  ;;Rocket Drawing Functions
  draw-rocket ;;default

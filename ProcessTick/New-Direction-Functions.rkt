@@ -13,7 +13,7 @@
 ;;          when previous direction is down
 (define/contract (new-dir-after-down X)
   new-dir-after-down/c
-  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? any-alien-at-left-edge?)])
     (if (func-at-left-edge X)
           'right
           'left)))
@@ -25,7 +25,7 @@
 ;;          when previous direction is left
 (define/contract (new-dir-after-left X)
   new-dir-after-left/c
-  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? (λ (x) x))])
+  (let ([func-at-left-edge (if (posn? X) alien-at-left-edge? any-alien-at-left-edge?)])
     (if (func-at-left-edge X)
         'down
         'left)))
@@ -35,7 +35,7 @@
 ;;          when previous direction is right
 (define/contract (new-dir-after-right X)
   new-dir-after-right/c
-  (let ([func-at-right-edge (if (posn? X) alien-at-right-edge? (λ (x) x))])
+  (let ([func-at-right-edge (if (posn? X) alien-at-right-edge? any-alien-at-right-edge?)])
     (if (func-at-right-edge X)
         'down
         'right)))

@@ -3,14 +3,9 @@
 (require racket/contract
          2htdp/image
          (only-in lang/htdp-beginner posn-x posn-y posn?)
-         rackunit
-         ;"../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Shot-Constants.rkt"
          "../Constants/Image-Constants.rkt"
-         ;"../Drawing/Scene-Drawing-Functions.rkt"
-         ;"../Drawing/Rocket-Drawing-Functions.rkt"
-         ;"../ProcessKey/Rocket-Moving-Functions.rkt"
          )
 
 (provide scene?
@@ -20,6 +15,7 @@
          rocket?
          alien?
          dir?
+         
  
 
          draw-ci/c
@@ -57,36 +53,90 @@
          draw-shot/c
          draw-shot-img/c
          make-shot/c
+         process-shooting/c
          hit?/c
          move-shot-up/c
+         move-shot/c
          move-alien-left/c
          move-alien-right/c
          move-alien-down/c
 
-         )
+         move-los/c
+         remove-shots/c
+         move-alien/c
+         move-loa/c
+         remove-hit-aliens/c
+         hit-by-any-shot?/c
+         hit-any-alien?/c
+         any-alien-at-right-edge?/c
+         any-alien-at-left-edge?/c
+         any-alien-reached-earth?/c
+         any-aliens-alive?/c
+         draw-los/c
+         draw-los-img/c
+         draw-loa/c
+         draw-loa-img/c)
 
 
 ;; formatting functions 
 (define (format-error blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
         [(image? value) (format "~a" message)]
+        [(posn? value) (format "~a: ~v" message value)]
+        [(list? value) (format "~a: ~v" message value)]
         [else (format "~a: ~a" message value)]))
+
+
+
+(define (format-error-display-list-items-los blame value message)
+  (cond [(string? value) (format "~a: ~s" message value)]
+        [(image? value) (format "~a" message)]
+        [(posn? value) (format "~a: ~v" message value)]
+        [(list? value) (let [(bad-vals (filter (λ (x) (not (shot? x))) value))]
+                         (cond [(= 1 (length bad-vals)) (format "~a ~v that contains an element that is not a shot: ~v" message value (car bad-vals))]
+                               [(= 2 (length bad-vals)) (format "~a ~v that contains the following elements that are not shots: ~a" message value (string-append (format "~v " (car bad-vals))
+                                                                                                                                                  (format "and ~v" (car (cdr bad-vals)))))]
+                               [else (format "~a ~v that contains the following elements that are not shots: ~a" message value (string-of-list-elem bad-vals))]))] 
+[else (format "~a: ~a" message value)]))
+
+(define (format-error-display-list-items-loa blame value message)
+  (cond [(string? value) (format "~a: ~s" message value)]
+        [(image? value) (format "~a" message)]
+        [(posn? value) (format "~a: ~v" message value)]
+        [(list? value) (let [(bad-vals (filter (λ (x) (not (alien? x))) value))]
+                         (cond [(= 1 (length bad-vals)) (format "~a ~v that contains an element that is not an alien: ~v" message value (car bad-vals))]
+                               [(= 2 (length bad-vals)) (format "~a ~v that contains the following elements that are not aliens: ~a" message value (string-append (format "~v " (car bad-vals))
+                                                                                                                                                  (format "and ~v" (car (cdr bad-vals)))))]
+                               [else (format "~a ~v that contains the following elements that are not aliens: ~a" message value (string-of-list-elem bad-vals))]))] 
+[else (format "~a: ~a" message value)]))
+
+(define (string-of-list-elem val)
+  (define (helper-for-string-of-list-elem val accum)
+    (cond [(null? val) val]
+          [(= 1 (length val)) (string-append accum (format "and ~v" (car val)))]
+          [else (helper-for-string-of-list-elem (cdr val) (string-append accum (format "~v, " (car val))))]))
+  (helper-for-string-of-list-elem val ""))
+  
+      
 
 (define (format-error-for-image-w&h blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
+        [(posn? value) (format "~a: ~v" message value)]
+        [(list? value) (format "~a: ~v" message value)]
         [(image? value) (format "~a of width ~a and height ~a" message (image-width value) (image-height value))]
         [else (format "~a: ~a" message value)]))
 
 (define (format-error-results blame value message)
   (cond [(string? value) (format "~s" message)]
+        [(posn? value) (format "~a: ~v" message value)]
+        [(list? value) (format "~a: ~v" message value)]
         [(image? value) (format "~a" message)]
         [else (format "~a" message)]))
 
 
 (define (type-arg-formatter func-name arg-name arg-type)
-  (if (image? arg-type)
-      (format "~a: expects ~a as input, given image" func-name arg-name)
-      (format "~a: expects ~a as input, given" func-name arg-name)))
+  (cond [(image? arg-type) (format "~a: expects ~a as input, given image" func-name arg-name)]
+        [else (format "~a: expects ~a as input, given" func-name arg-name)]))
 
 
 
@@ -137,6 +187,13 @@
        (image-x? (posn-x x))
        (image-y? (posn-y x))))
 
+;; image -> boolean
+;; purpose: determines if the given image is a ci
+(define (ci? val)
+  (and (<= (image-width val)  MAX-CI-WIDTH)
+       (<= (image-height val) MAX-CI-HEIGHT)))
+
+
 ;; CONTRACTS
 
 ;;contract
@@ -146,8 +203,7 @@
    #:name 'is-ci?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (<= (image-width val)  MAX-CI-WIDTH)
-                             (<= (image-height val) MAX-CI-HEIGHT))
+                    (or (ci? val)
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
@@ -187,10 +243,6 @@
                             (format "~a should return image, instead returned ~a. please contact developers" func-name val)))))))))
 
 
-
-(define within-max-chars-hori/c (integer-in 0 (sub1 MAX-CHARS-HORIZONTAL)))
-(define within-max-chars-vert/c (integer-in 0 (sub1 MAX-CHARS-VERTICAL)))
-
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
 (define (is-img-y/c func-name)
@@ -198,7 +250,7 @@
    #:name 'is-img-y?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (within-max-chars-vert/c val)
+                    (or (image-y? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -214,7 +266,7 @@
    #:name 'is-img-x?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (within-max-chars-hori/c val)
+                    (or (image-x? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -266,8 +318,7 @@
    #:projection (λ (blame)
                   (λ (val)
                     (or (and (image? val)
-                             (<= (image-width val)  MAX-CI-WIDTH)
-                             (<= (image-height val) MAX-CI-HEIGHT))
+                             (ci? val))
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
@@ -300,9 +351,7 @@
    #:name 'is-alien?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (posn? val)
-                             (within-max-chars-hori/c (posn-x val))
-                             (within-max-chars-vert/c (posn-y val)))
+                    (or (alien? val)
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
@@ -316,15 +365,29 @@
    #:name 'is-alienOR-loa?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (or (list? val)
-                            (and (posn? val)
-                                 (within-max-chars-hori/c (posn-x val))
-                                 (within-max-chars-vert/c (posn-y val))))
+                    (or (or ((listof alien?) val)
+                            (alien? val))
                         ((λ ()
                            (current-blame-format format-error)
                            (raise-blame-error
                             blame val
                             (type-arg-formatter func-name "an alien or (listof alien)" val)))))))))
+
+
+;; contract
+;; Purpose: Determine if the input is a list of alien
+(define (is-loa/c func-name)
+  (make-flat-contract
+   #:name 'is-loa?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or ((listof alien?) val)
+                        ((λ ()
+                           (current-blame-format format-error-display-list-items-loa)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "a (listof alien)" val)))))))))
+
 
 
 ;; contract
@@ -334,9 +397,7 @@
    #:name 'is-scene?
    #:projection (λ (blame)
                   (λ (val)
-                    (or (and (image? val)
-                             (= (* MAX-CHARS-HORIZONTAL MAX-CI-WIDTH) (image-width val))
-                             (= (* MAX-CHARS-VERTICAL MAX-CI-HEIGHT) (image-height val)))
+                    (or (scene? val)
                         ((λ ()
                            (current-blame-format format-error-for-image-w&h)
                            (raise-blame-error
@@ -374,6 +435,24 @@
                             (type-arg-formatter func-name "a shot" val)))))))))
 
 
+
+;; contract
+;; Purpose: Determine if the input is a list of shot
+(define (is-los/c func-name)
+  (make-flat-contract
+   #:name 'is-los?
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or ((listof shot?) val)
+                        ((λ ()
+                           (current-blame-format format-error-display-list-items-los)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter func-name "a (listof shot)" val)
+                            ))))))))
+
+
+
 ;;;; FUNCTION CONTRACTS
 
 (define draw-ci/c (-> (is-img&ci/c "draw-ci") (is-img-x/c "draw-ci") (is-img-y/c "draw-ci") (is-scene/c "draw-ci") (is-result-img/c "draw-ci")))
@@ -400,11 +479,11 @@
 
 (define move-down-image-y/c (-> (is-img-y/c "move-down-image-y") (is-img-y/c "move-down-image-y")))
 
-(define new-dir-after-down/c (-> (is-alien/c "new-dir-after-down") (is-dir/c "new-dir-after-down")))
+(define new-dir-after-down/c (-> (is-alien-OR-loa/c "new-dir-after-down") (is-dir/c "new-dir-after-down")))
 
-(define new-dir-after-left/c (-> (is-alien/c "new-dir-after-left") (is-dir/c "new-dir-after-left")))
+(define new-dir-after-left/c (-> (is-alien-OR-loa/c "new-dir-after-left") (is-dir/c "new-dir-after-left")))
 
-(define new-dir-after-right/c (-> (is-alien/c "new-dir-after-right") (is-dir/c "new-dir-after-right")))
+(define new-dir-after-right/c (-> (is-alien-OR-loa/c "new-dir-after-right") (is-dir/c "new-dir-after-right")))
 
 (define alien-at-right-edge?/c (-> (is-alien/c "alien-at-right-edge?") boolean?))
 
@@ -421,15 +500,56 @@
 
 (define make-shot/c (-> (is-shot/c "make-shot") (is-rocket/c "make-shot") (is-shot/c "make-shot")))
 
-(define hit?/c (-> (is-shot/c "make-shot") (is-alien/c "make-shot") boolean?))
+(define process-shooting/c (-> (is-rocket/c "process-shooting") (is-shot/c "process-shooting")))
+
+(define hit?/c (-> (is-shot/c "hit?") (is-alien/c "hit?") boolean?))
 
 (define move-shot-up/c (-> (is-shot/c "move-shot-up") (is-shot/c "move-shot-up")))
+
+(define move-shot/c (-> (is-shot/c "move-shot") (is-shot/c "move-shot")))
 
 (define move-alien-left/c (-> (is-alien/c "move-alien-left") (is-alien/c "move-alien-left")))
 
 (define move-alien-right/c (-> (is-alien/c "move-alien-right") (is-alien/c "move-alien-right")))
 
 (define move-alien-down/c (-> (is-alien/c "move-alien-down") (is-alien/c "move-alien-down")))
+
+
+
+(define move-los/c (-> (is-los/c "move-los") (is-los/c "move-los")))
+
+(define remove-shots/c (-> (is-los/c "remove-shots") (is-loa/c "remove-shots") (is-los/c "remove-shots")))
+
+(define move-alien/c (-> (is-alien/c "move-alien") (is-dir/c "move-alien") (is-alien/c "move-alien")))
+
+(define move-loa/c (-> (is-loa/c "move-loa") (is-dir/c "move-loa") (is-loa/c "move-loa")))
+
+(define remove-hit-aliens/c (-> (is-loa/c "remove-hit-aliens") (is-los/c "remove-hit-aliens") (is-loa/c "remove-hit-aliens")))
+
+(define hit-by-any-shot?/c (-> (is-alien/c "hit-by-any-shot?") (is-los/c "hit-by-any-shot?") boolean?))
+
+(define hit-any-alien?/c (-> (is-shot/c "hit-any-alien?") (is-loa/c "hit-any-alien?") boolean?))
+
+(define any-alien-at-right-edge?/c (-> (is-loa/c "any-alien-at-right-edge?") boolean?))
+
+(define any-alien-at-left-edge?/c (-> (is-loa/c "any-alien-at-left-edge?") boolean?))
+
+(define any-alien-reached-earth?/c (-> (is-loa/c "any-alien-reached-earth?") boolean?)) 
+
+(define any-aliens-alive?/c (-> (is-loa/c "any-aliens-alive?") boolean?))
+
+(define draw-los/c (-> (is-los/c "draw-los") (is-scene/c "draw-los") (is-scene/c "draw-los")))
+
+(define draw-los-img/c (-> (is-ci/c "draw-los-img") (is-los/c "draw-losimg") (is-scene/c "draw-los-img") (is-scene/c "draw-los-img")))
+
+(define draw-loa/c (-> (is-loa/c "draw-loa") (is-scene/c "draw-loa") (is-scene/c "draw-loa")))
+
+(define draw-loa-img/c (-> (is-ci/c "draw-loa-img") (is-loa/c "draw-loa-img") (is-scene/c "draw-loa-img") (is-scene/c "draw-loa-img")))
+
+
+
+
+
 
 
 

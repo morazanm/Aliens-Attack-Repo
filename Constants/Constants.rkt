@@ -4,12 +4,11 @@
          "./Image-Constants.rkt"
          "./CI-Constants.rkt"
          "./Tick-Constants.rkt"
-         "./Shot-Constants.rkt")
+         (only-in "./Shot-Constants.rkt" NO-SHOT))
 
 (provide  
  ;; CIs
- #;(rename-out [E-SCENE-W E-SCENE-WIDTH]
-             [E-SCENE-H E-SCENE-HEIGHT])
+ 
  E-SCENE-W
 
  E-SCENE-H

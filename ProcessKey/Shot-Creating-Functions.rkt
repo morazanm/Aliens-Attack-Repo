@@ -16,3 +16,10 @@
   (if (eq? a-shot NO-SHOT)
       (make-posn a-rocket MAX-IMG-Y)
       a-shot))
+
+
+;; rocket -> shot
+;; Purpose: To create a new shot
+(define/contract (process-shooting a-rocket)
+  process-shooting/c
+  (make-posn a-rocket MAX-IMG-Y))
