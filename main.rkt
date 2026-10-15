@@ -6,8 +6,7 @@
          "./Predicates/Predicates.rkt"
          "./ProcessTick/ProcessTick-Functions.rkt"
          "./ProcessKey/ProcessKey-Functions.rkt"
-         (only-in "./Contracts/Contracts.rkt" image-x? image-y? dir? alien? rocket? shot? scene?)
-         "./GameOver/GameOver-Functions.rkt")
+         (only-in "./Contracts/Contracts.rkt" image-x? image-y? dir? alien? rocket? shot? scene?))
 
 (provide
    ;;CONSTANTS

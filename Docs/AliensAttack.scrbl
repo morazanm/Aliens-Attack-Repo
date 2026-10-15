@@ -222,7 +222,7 @@ Moves every @italic{alien} in @italic{loa} to the @italic{dir}.}
 Removes every @italic{alien} in @italic{loa} that was hit by any @italic{shot} in @italic{los}.}
 
 @defproc[(move-shot-up [shot shot?]) shot]{
-Moves @italic{shot} up.}
+Moves @italic{shot} up. @italic{Deprecated}}
 
 @defproc[(move-shot [shot shot?]) shot]{
 Moves @italic{shot} up.}
