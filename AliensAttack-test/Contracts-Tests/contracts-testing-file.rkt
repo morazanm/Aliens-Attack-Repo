@@ -406,16 +406,16 @@
 (check-exn exn:fail? (λ () (draw-shot-img (empty-scene 600 450) (make-posn 1 2))))
 
 ;;make-shot/c
-(check-exn exn:fail? (λ () (process-shooting 400 5)))
-(check-exn exn:fail? (λ () (process-shooting (square 22 'solid 'blue) 6)))
-(check-exn exn:fail? (λ () (process-shooting 'hello 8)))
-(check-exn exn:fail? (λ () (process-shooting 1 "duck")))
+(check-exn exn:fail? (λ () (process-shooting 400)))
+(check-exn exn:fail? (λ () (process-shooting (square 22 'solid 'blue))))
+(check-exn exn:fail? (λ () (process-shooting 'hello)))
+(check-exn exn:fail? (λ () (process-shooting "duck")))
 (check-exn exn:fail? (λ () (process-shooting #true 's (empty-scene 450 600))))
 (check-exn exn:fail? (λ () (process-shooting NO-SHOT 22)))
-(check-equal? (process-shooting NO-SHOT 2) (make-posn 2 14))
+(check-equal? (process-shooting 10) (make-posn 10 14))
 (check-exn exn:fail? (λ () (process-shooting -1)))
-(check-equal? (process-shooting NO-SHOT 10) (make-posn 10 14)) 
-(check-equal? (process-shooting (make-posn 5 13) 5) (make-posn 5 13 ))
+(check-equal? (process-shooting 2) (make-posn 2 14)) 
+(check-equal? (process-shooting 5) (make-posn 5 14))
 
 
 ;; move-los
