@@ -3,7 +3,6 @@
 (require (only-in rackunit check-false check-true check-pred check-equal?)
          (only-in lang/htdp-beginner empty? first rest posn? make-posn posn-y posn-x)
          "../../Predicates/Shot-Predicates.rkt"
-         "../../Constants/E-SCENE-Constants.rkt"
          "../../Constants/Shot-Constants.rkt"
          "../../Constants/Alien-Constants.rkt")
 

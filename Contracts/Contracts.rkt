@@ -3,14 +3,9 @@
 (require racket/contract
          2htdp/image
          (only-in lang/htdp-beginner posn-x posn-y posn?)
-         rackunit
-         ;"../Predicates/Image-Predicates.rkt"
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Shot-Constants.rkt"
          "../Constants/Image-Constants.rkt"
-         ;"../Drawing/Scene-Drawing-Functions.rkt"
-         ;"../Drawing/Rocket-Drawing-Functions.rkt"
-         ;"../ProcessKey/Rocket-Moving-Functions.rkt"
          )
 
 (provide scene?

@@ -1,7 +1,7 @@
 #lang racket/base
 
 (require (only-in lang/htdp-beginner make-posn)
-         "./E-SCENE-Constants.rkt")
+         "./E-Scene-Constants.rkt")
 
 (provide (all-defined-out))
 

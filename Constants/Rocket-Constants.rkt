@@ -1,6 +1,6 @@
 #lang racket/base
 
-(require "./E-SCENE-Constants.rkt")
+(require "./E-Scene-Constants.rkt")
 
 (provide (all-defined-out))
 

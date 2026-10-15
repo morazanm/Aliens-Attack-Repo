@@ -4,7 +4,7 @@
          (only-in lang/htdp-beginner empty? first rest make-posn posn-y posn-x)
          "../../Constants/Alien-Constants.rkt"
          "../../Predicates/Alien-Predicates.rkt"
-         "../../Constants/E-SCENE-Constants.rkt")
+         "../../Constants/E-Scene-Constants.rkt")
 
 
 ;; Sample expressions for alien-at-right-edge?

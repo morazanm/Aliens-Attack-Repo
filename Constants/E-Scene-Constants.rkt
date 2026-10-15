@@ -5,7 +5,6 @@
 
 (provide (all-defined-out))
 
-
 (define MAX-CHARS-HORIZONTAL 20)
 
 (define MAX-CHARS-VERTICAL 15)
