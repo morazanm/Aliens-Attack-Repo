@@ -14,7 +14,7 @@
 
 (define (move-shot-up a-shot)
    move-shot-up/c
-  (displayln "This function is deprecated, please use move-shot instead.")
+  (displayln "The function, move-shot-up, is deprecated, please use move-shot instead.")
   (cond [(eq? a-shot NO-SHOT) a-shot]
         [(= (posn-y a-shot) MIN-IMG-Y) NO-SHOT]
         [else (make-posn (posn-x a-shot) (move-up-image-y (posn-y a-shot)))]))
