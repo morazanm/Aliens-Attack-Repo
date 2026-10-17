@@ -5,8 +5,7 @@
          (only-in lang/htdp-beginner posn-x posn-y posn?)
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Shot-Constants.rkt"
-         "../Constants/Image-Constants.rkt"
-         )
+         "../Constants/Image-Constants.rkt")
 
 (provide scene?
          image-x?
@@ -188,7 +187,7 @@
        (<= (image-height val) MAX-CI-HEIGHT)))
 
 
-;; CONTRACTS
+;;; CONTRACTS
 
 ;; <X> (listof (X -> boolean)) X -> boolean
 ;;purpose: determine if the given value satisfies all predicates in the given list of predicates
@@ -317,7 +316,6 @@
 ;; Purpose: Determine if the input is a shot
 (define (is-shot/c func-name)
   (contract-using-type-arg-formatter func-name 'is-shot? (list shot?) format-error "a shot"))
-
 
 
 ;; contract
