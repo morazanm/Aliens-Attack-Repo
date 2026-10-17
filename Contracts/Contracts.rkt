@@ -226,37 +226,12 @@
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
-#;(define (is-ci/c func-name)
-    (make-flat-contract
-     #:name 'is-ci?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (ci? val)
-                          ((λ ()
-                             (current-blame-format format-error-for-image-w&h)
-                             (raise-blame-error
-                              blame
-                              val
-                              (type-arg-formatter func-name "a ci" val)))))))))
-
 (define (is-ci/c func-name)
   (contract-using-type-arg-formatter func-name 'is-ci? (list ci?) format-error-for-image-w&h "a-ci"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is an image
-#;(define (is-img/c func-name)
-    (make-flat-contract
-     #:name 'is-img?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (image? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "an image" val)))))))))
-
 (define (is-img/c func-name)
   (contract-using-type-arg-formatter func-name 'is-img? (list image?) format-error "an image"))
 
@@ -278,35 +253,11 @@
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
-#;(define (is-img-y/c func-name)
-    (make-flat-contract
-     #:name 'is-img-y?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (image-y? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
-
 (define (is-img-y/c func-name)
   (contract-using-type-arg-formatter func-name 'is-img-y? (list image-y?) format-error "an integer between 0 and (sub1 MAX-CHARS-VERTICAL)"))
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)
-#;(define (is-img-x/c func-name)
-    (make-flat-contract
-     #:name 'is-img-x?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (image-x? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
-
 (define (is-img-x/c func-name)
   (contract-using-type-arg-formatter func-name 'is-img-x? (list image-x?) format-error "an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)"))
 
@@ -316,182 +267,54 @@
 
 ;; contract
 ;; purpose: determine if the input is an image-x
-#;(define (is-pix-y/c func-name)
-    (make-flat-contract
-     #:name 'is-pix-y?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (within-max-chars-vert*img-w-1/c val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]" val)))))))))
-
-
 (define (is-pix-y/c func-name)
   (contract-using-type-arg-formatter func-name 'is-pix-y? (list within-max-chars-vert*img-w-1/c) format-error "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]"))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
-#;(define (is-pix-x/c func-name)
-    (make-flat-contract
-     #:name 'is-pix-x?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (within-max-chars-hori*img-w-1/c val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]" val)))))))))
-
 (define (is-pix-x/c func-name)
   (contract-using-type-arg-formatter func-name 'is-pix-x? (list within-max-chars-hori*img-w-1/c) format-error "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]"))
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
-#;(define (is-img&ci/c func-name)
-    (make-flat-contract
-     #:name 'is-img&ci?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (and (image? val)
-                               (ci? val))
-                          ((λ ()
-                             (current-blame-format format-error-for-image-w&h)
-                             (raise-blame-error
-                              blame
-                              val
-                              (type-arg-formatter func-name "a ci" val)))))))))
-
 (define (is-img&ci/c func-name)
   (contract-using-type-arg-formatter func-name 'is-img&ci? (list image? ci?) format-error-for-image-w&h "a ci"))
 
 ;;contract
 ;;Purpose: Determine if the input is an rocket
-#;(define (is-rocket/c func-name)
-    (make-flat-contract
-     #:name 'is-rocket?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (and (number? val)
-                               (rocket? val))
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame
-                              val
-                              (type-arg-formatter func-name "a rocket" val)))
-                           ))))))
-
 (define (is-rocket/c func-name)
   (contract-using-type-arg-formatter func-name 'is-rocket? (list number? rocket?) format-error "a rocket"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is an alien
-#;(define (is-alien/c func-name)
-    (make-flat-contract
-     #:name 'is-alien?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (alien? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "an alien" val)))))))))
-
 (define (is-alien/c func-name)
   (contract-using-type-arg-formatter func-name 'is-alien? (list alien?) format-error "an alien"))
 
 ;; contract
 ;; Purpose: Determine if the input is an alien or list of alien
-#;(define (is-alien-OR-loa/c func-name)
-    (make-flat-contract
-     #:name 'is-alienOR-loa?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (or ((listof alien?) val)
-                              (alien? val))
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "an alien or (listof alien)" val)))))))))
-
-
 (define (is-alien-OR-loa/c func-name)
   (contract-using-type-arg-formatter func-name 'is-alienOR-loa? (list (λ (x) (or ((listof alien?) x)
                                                                                  (alien? x)))) format-error "an alien or (listof alien)"))
 
 ;; contract
 ;; Purpose: Determine if the input is a list of alien
-#;(define (is-loa/c func-name)
-  (make-flat-contract
-   #:name 'is-loa?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or ((listof alien?) val)
-                        ((λ ()
-                           (current-blame-format format-error-given-message)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter-lox func-name "a (listof alien)" val alien? "an" "alien")))))))))
-
 (define (is-loa/c func-name)
   (contract-using-type-arg-formatter-lox func-name 'is-loa? (list (listof alien?)) "a (listof alien)" alien? "an" "alien"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is a scene
-#;(define (is-scene/c func-name)
-    (make-flat-contract
-     #:name 'is-scene?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (scene? val)
-                          ((λ ()
-                             (current-blame-format format-error-for-image-w&h)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "a scene" val)))))))))
-
 (define (is-scene/c func-name)
   (contract-using-type-arg-formatter func-name 'is-scene? (list scene?) format-error-for-image-w&h "a scene"))
 
 ;; contract
 ;; Purpose: Determine if the input is a dir
-#;(define (is-dir/c func-name)
-    (make-flat-contract
-     #:name 'is-dir?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (dir? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "a dir" val)))))))))
-
 (define (is-dir/c func-name)
   (contract-using-type-arg-formatter func-name 'is-dir? (list dir?) format-error "a dir"))
 
 ;; contract
 ;; Purpose: Determine if the input is a shot
-#;(define (is-shot/c func-name)
-    (make-flat-contract
-     #:name 'is-shot?
-     #:projection (λ (blame)
-                    (λ (val)
-                      (or (shot? val)
-                          ((λ ()
-                             (current-blame-format format-error)
-                             (raise-blame-error
-                              blame val
-                              (type-arg-formatter func-name "a shot" val)))))))))
-
 (define (is-shot/c func-name)
   (contract-using-type-arg-formatter func-name 'is-shot? (list shot?) format-error "a shot"))
 
@@ -499,18 +322,6 @@
 
 ;; contract
 ;; Purpose: Determine if the input is a list of shot
-#;(define (is-los/c func-name)
-  (make-flat-contract
-   #:name 'is-los?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or ((listof shot?) val)
-                        ((λ ()
-                           (current-blame-format format-error-given-message)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter-lox func-name "a (listof shot)" val shot? "a" "shot")))))))))
-
 (define (is-los/c func-name)
   (contract-using-type-arg-formatter-lox func-name 'is-los? (list (listof shot?)) "a (listof shot)" shot? "a" "shot"))
 
@@ -608,11 +419,6 @@
 (define draw-loa/c (-> (is-loa/c "draw-loa") (is-scene/c "draw-loa") (is-scene/c "draw-loa")))
 
 (define draw-loa-img/c (-> (is-ci/c "draw-loa-img") (is-loa/c "draw-loa-img") (is-scene/c "draw-loa-img") (is-scene/c "draw-loa-img")))
-
-
-
-
-
 
 
 
