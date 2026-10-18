@@ -5,8 +5,7 @@
          (only-in lang/htdp-beginner posn-x posn-y posn?)
          "../Constants/E-Scene-Constants.rkt"
          "../Constants/Shot-Constants.rkt"
-         "../Constants/Image-Constants.rkt"
-         )
+         "../Constants/Image-Constants.rkt")
 
 (provide scene?
          image-x?
@@ -16,8 +15,6 @@
          alien?
          dir?
          
- 
-
          draw-ci/c
          ci?/c
          move-rckt-right/c
@@ -78,60 +75,30 @@
          draw-loa-img/c)
 
 
-;; formatting functions 
+;; FORMATTING FUNCTIONS
+
 (define (format-error blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
         [(image? value) (format "~a" message)]
-        [(posn? value) (format "~a: ~v" message value)]
-        [(list? value) (format "~a: ~v" message value)]
+        [(or (list? value)
+             (posn? value)
+             (symbol? value)) (format "~a: ~v" message value)]
         [else (format "~a: ~a" message value)]))
 
 
-
-(define (format-error-display-list-items-los blame value message)
-  (cond [(string? value) (format "~a: ~s" message value)]
-        [(image? value) (format "~a" message)]
-        [(posn? value) (format "~a: ~v" message value)]
-        [(list? value) (let [(bad-vals (filter (λ (x) (not (shot? x))) value))]
-                         (cond [(= 1 (length bad-vals)) (format "~a ~v that contains an element that is not a shot: ~v" message value (car bad-vals))]
-                               [(= 2 (length bad-vals)) (format "~a ~v that contains the following elements that are not shots: ~a" message value (string-append (format "~v " (car bad-vals))
-                                                                                                                                                  (format "and ~v" (car (cdr bad-vals)))))]
-                               [else (format "~a ~v that contains the following elements that are not shots: ~a" message value (string-of-list-elem bad-vals))]))] 
-[else (format "~a: ~a" message value)]))
-
-(define (format-error-display-list-items-loa blame value message)
-  (cond [(string? value) (format "~a: ~s" message value)]
-        [(image? value) (format "~a" message)]
-        [(posn? value) (format "~a: ~v" message value)]
-        [(list? value) (let [(bad-vals (filter (λ (x) (not (alien? x))) value))]
-                         (cond [(= 1 (length bad-vals)) (format "~a ~v that contains an element that is not an alien: ~v" message value (car bad-vals))]
-                               [(= 2 (length bad-vals)) (format "~a ~v that contains the following elements that are not aliens: ~a" message value (string-append (format "~v " (car bad-vals))
-                                                                                                                                                  (format "and ~v" (car (cdr bad-vals)))))]
-                               [else (format "~a ~v that contains the following elements that are not aliens: ~a" message value (string-of-list-elem bad-vals))]))] 
-[else (format "~a: ~a" message value)]))
-
-(define (string-of-list-elem val)
-  (define (helper-for-string-of-list-elem val accum)
-    (cond [(null? val) val]
-          [(= 1 (length val)) (string-append accum (format "and ~v" (car val)))]
-          [else (helper-for-string-of-list-elem (cdr val) (string-append accum (format "~v, " (car val))))]))
-  (helper-for-string-of-list-elem val ""))
-  
+(define (format-error-given-message blame value message)
+  (format "~a" message))
       
 
 (define (format-error-for-image-w&h blame value message)
   (cond [(string? value) (format "~a: ~s" message value)]
-        [(posn? value) (format "~a: ~v" message value)]
-        [(list? value) (format "~a: ~v" message value)]
+        [(or (list? value)
+             (posn? value)
+             (symbol? value)) (format "~a: ~v" message value)]
         [(image? value) (format "~a of width ~a and height ~a" message (image-width value) (image-height value))]
         [else (format "~a: ~a" message value)]))
 
-(define (format-error-results blame value message)
-  (cond [(string? value) (format "~s" message)]
-        [(posn? value) (format "~a: ~v" message value)]
-        [(list? value) (format "~a: ~v" message value)]
-        [(image? value) (format "~a" message)]
-        [else (format "~a" message)]))
+
 
 
 (define (type-arg-formatter func-name arg-name arg-type)
@@ -139,21 +106,47 @@
         [else (format "~a: expects ~a as input, given" func-name arg-name)]))
 
 
+;; list -> string
+;; purpose: return the values in given list as a string
+(define (string-of-list-elem val)
+  (define (helper-for-string-of-list-elem val accum)
+    (cond [(null? val) val]
+          [(= 1 (length val)) (string-append accum (format "and ~v" (car val)))]
+          [else (helper-for-string-of-list-elem (cdr val) (string-append accum (format "~v, " (car val))))]))
+  (helper-for-string-of-list-elem val ""))
+  
 
-;;;;;Predicates
+(define (type-arg-formatter-lox func-name arg-name value listof-pred a-vs-an listof-item)
+  (cond [(string? value) (format "~a: expects ~a as input, given: ~s" func-name arg-name value)]
+        [(image? value) (format "~a: expects ~a as input, given image" func-name arg-name)]
+        [(or (symbol? value) (posn? value)) (format "~a: expects ~a as input, given: ~v" func-name arg-name value)]
+        [(list? value) (let [(bad-vals (filter (λ (x) (not (listof-pred x))) value))]
+                         (cond [(= 1 (length bad-vals)) (format "~a: expects ~a as input, given ~v that contains an element that is not ~a ~a: ~v" func-name arg-name value a-vs-an listof-item (car bad-vals))]
+                               [(= 2 (length bad-vals)) (format "~a: expects ~a as input, given ~v that contains the following elements that are not ~as: ~a" func-name arg-name value listof-item (string-append (format "~v " (car bad-vals))
+                                                                                                                                                                                                                  (format "and ~v" (car (cdr bad-vals)))))]
+                               [else (format "~a: expects ~a as input, given ~v that contains the following elements that are not ~as: ~a" func-name arg-name value listof-item (string-of-list-elem bad-vals))]))] 
+        [else (format "~a: expects ~a as input, given: ~a" func-name arg-name value)]))
 
+
+
+
+
+
+;;;;;PREDICATES
+
+;; <X> X -> boolean
 (define (scene? x)
   (and (image? x)
        (= (image-width x) E-SCENE-W)
        (= (image-height x) E-SCENE-H)))
 
-;; number -> Boolean
+;; <X> X -> Boolean
 ;;Purpose: Determines if X is an image-x
 (define (image-x? x)
   (and (number? x)
        (<= 0 x (sub1 MAX-CHARS-HORIZONTAL))))
 
-;; number -> Boolean
+;;  <X> X -> Boolean
 ;;Purpose: Determines if X is an image-y
 (define (image-y? x)
   (and (number? x)
@@ -194,39 +187,52 @@
        (<= (image-height val) MAX-CI-HEIGHT)))
 
 
-;; CONTRACTS
+;;; CONTRACTS
+
+;; <X> (listof (X -> boolean)) X -> boolean
+;;purpose: determine if the given value satisfies all predicates in the given list of predicates
+(define (all-preds-pass? preds val)
+  (andmap (λ (p) (p val)) preds))
+
+
+
+(define (contract-using-type-arg-formatter func-name contract-name listof-preds-on-val cur-blame-format expected-type)
+  (make-flat-contract
+   #:name contract-name
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (all-preds-pass? listof-preds-on-val val)
+                        ((λ ()
+                           (current-blame-format cur-blame-format)
+                           (raise-blame-error
+                            blame
+                            val
+                            (type-arg-formatter func-name expected-type val)))))))))
+
+(define (contract-using-type-arg-formatter-lox func-name contract-name listof-preds-on-val expected-type type-pred a-vs-an type-name)
+  (make-flat-contract
+   #:name contract-name
+   #:projection (λ (blame)
+                  (λ (val)
+                    (or (all-preds-pass? listof-preds-on-val val)
+                        ((λ ()
+                           (current-blame-format format-error-given-message)
+                           (raise-blame-error
+                            blame val
+                            (type-arg-formatter-lox func-name expected-type val type-pred a-vs-an type-name)))))))))
+
+
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
 (define (is-ci/c func-name)
-  (make-flat-contract
-   #:name 'is-ci?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (ci? val)
-                        ((λ ()
-                           (current-blame-format format-error-for-image-w&h)
-                           (raise-blame-error
-                            blame
-                            val
-                            (type-arg-formatter func-name "a ci" val)))))))))
+  (contract-using-type-arg-formatter func-name 'is-ci? (list ci?) format-error-for-image-w&h "a-ci"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is an image
 (define (is-img/c func-name)
-  (make-flat-contract
-   #:name 'is-img?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (image? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "an image" val)))))))))
-
-
+  (contract-using-type-arg-formatter func-name 'is-img? (list image?) format-error "an image"))
 
 ;; contract
 ;; purpose: determine if the result is an image
@@ -237,42 +243,22 @@
                   (λ (val)
                     (or (image? val)
                         ((λ ()
-                           (current-blame-format format-error-results)
+                           (current-blame-format format-error-given-message)
                            (raise-blame-error
                             blame val
                             (format "~a should return image, instead returned ~a. please contact developers" func-name val)))))))))
 
 
+
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-VERTICAL)
 (define (is-img-y/c func-name)
-  (make-flat-contract
-   #:name 'is-img-y?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (image-y? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-VERTICAL)" val)))))))))
-
-
+  (contract-using-type-arg-formatter func-name 'is-img-y? (list image-y?) format-error "an integer between 0 and (sub1 MAX-CHARS-VERTICAL)"))
 
 ;; contract
 ;; purpose: determine if the input is an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)
 (define (is-img-x/c func-name)
-  (make-flat-contract
-   #:name 'is-img-x?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (image-x? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)" val)))))))))
-
+  (contract-using-type-arg-formatter func-name 'is-img-x? (list image-x?) format-error "an integer between 0 and (sub1 MAX-CHARS-HORIZONTAL)"))
 
 
 (define within-max-chars-hori*img-w-1/c (integer-in 0 (sub1 (* MAX-CI-WIDTH MAX-CHARS-HORIZONTAL))))
@@ -281,175 +267,61 @@
 ;; contract
 ;; purpose: determine if the input is an image-x
 (define (is-pix-y/c func-name)
-  (make-flat-contract
-   #:name 'is-pix-y?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (within-max-chars-vert*img-w-1/c val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]" val)))))))))
-
-
+  (contract-using-type-arg-formatter func-name 'is-pix-y? (list within-max-chars-vert*img-w-1/c) format-error "expecting an integer in [0..(MAX-CHARS-VERTICAL * IMAGE-WIDTH)-1]"))
 
 ;; contract
 ;; purpose: determine if the input is an image-x
 (define (is-pix-x/c func-name)
-  (make-flat-contract
-   #:name 'is-pix-x?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (within-max-chars-hori*img-w-1/c val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]" val)))))))))
-
-
+  (contract-using-type-arg-formatter func-name 'is-pix-x? (list within-max-chars-hori*img-w-1/c) format-error "expected an integer in [0..(MAX-CHARS-HORIZONTAL * IMAGE-HEIGHT)-1]"))
 
 ;;contract
 ;;Purpose: Determines if the input is a ci
 (define (is-img&ci/c func-name)
-  (make-flat-contract
-   #:name 'is-img&ci?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (and (image? val)
-                             (ci? val))
-                        ((λ ()
-                           (current-blame-format format-error-for-image-w&h)
-                           (raise-blame-error
-                            blame
-                            val
-                            (type-arg-formatter func-name "a ci" val)))))))))
-
+  (contract-using-type-arg-formatter func-name 'is-img&ci? (list image? ci?) format-error-for-image-w&h "a ci"))
 
 ;;contract
 ;;Purpose: Determine if the input is an rocket
 (define (is-rocket/c func-name)
-  (make-flat-contract
-   #:name 'is-rocket/c
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (and (number? val)
-                             (rocket? val))
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame
-                            val
-                            (type-arg-formatter func-name "a rocket" val)))
-                         )))))) #|specify the issue if it fails, i.e. if its a number but not a rocket what should you tell the student|#
+  (contract-using-type-arg-formatter func-name 'is-rocket? (list number? rocket?) format-error "a rocket"))
+
 
 ;; contract
 ;; Purpose: Determine if the input is an alien
 (define (is-alien/c func-name)
-  (make-flat-contract
-   #:name 'is-alien?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (alien? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "an alien" val)))))))))
+  (contract-using-type-arg-formatter func-name 'is-alien? (list alien?) format-error "an alien"))
 
 ;; contract
 ;; Purpose: Determine if the input is an alien or list of alien
 (define (is-alien-OR-loa/c func-name)
-  (make-flat-contract
-   #:name 'is-alienOR-loa?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (or ((listof alien?) val)
-                            (alien? val))
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "an alien or (listof alien)" val)))))))))
-
+  (contract-using-type-arg-formatter func-name 'is-alienOR-loa? (list (λ (x) (or ((listof alien?) x)
+                                                                                 (alien? x)))) format-error "an alien or (listof alien)"))
 
 ;; contract
 ;; Purpose: Determine if the input is a list of alien
 (define (is-loa/c func-name)
-  (make-flat-contract
-   #:name 'is-loa?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or ((listof alien?) val)
-                        ((λ ()
-                           (current-blame-format format-error-display-list-items-loa)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "a (listof alien)" val)))))))))
-
+  (contract-using-type-arg-formatter-lox func-name 'is-loa? (list (listof alien?)) "a (listof alien)" alien? "an" "alien"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is a scene
 (define (is-scene/c func-name)
-  (make-flat-contract
-   #:name 'is-scene?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (scene? val)
-                        ((λ ()
-                           (current-blame-format format-error-for-image-w&h)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "a scene" val)))))))))
-
-
+  (contract-using-type-arg-formatter func-name 'is-scene? (list scene?) format-error-for-image-w&h "a scene"))
 
 ;; contract
 ;; Purpose: Determine if the input is a dir
 (define (is-dir/c func-name)
-  (make-flat-contract
-   #:name 'is-dir?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (dir? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "a dir" val)))))))))
+  (contract-using-type-arg-formatter func-name 'is-dir? (list dir?) format-error "a dir"))
 
 ;; contract
 ;; Purpose: Determine if the input is a shot
 (define (is-shot/c func-name)
-  (make-flat-contract
-   #:name 'is-shot?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or (shot? val)
-                        ((λ ()
-                           (current-blame-format format-error)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "a shot" val)))))))))
-
+  (contract-using-type-arg-formatter func-name 'is-shot? (list shot?) format-error "a shot"))
 
 
 ;; contract
 ;; Purpose: Determine if the input is a list of shot
 (define (is-los/c func-name)
-  (make-flat-contract
-   #:name 'is-los?
-   #:projection (λ (blame)
-                  (λ (val)
-                    (or ((listof shot?) val)
-                        ((λ ()
-                           (current-blame-format format-error-display-list-items-los)
-                           (raise-blame-error
-                            blame val
-                            (type-arg-formatter func-name "a (listof shot)" val)
-                            ))))))))
+  (contract-using-type-arg-formatter-lox func-name 'is-los? (list (listof shot?)) "a (listof shot)" shot? "a" "shot"))
 
 
 
@@ -545,11 +417,6 @@
 (define draw-loa/c (-> (is-loa/c "draw-loa") (is-scene/c "draw-loa") (is-scene/c "draw-loa")))
 
 (define draw-loa-img/c (-> (is-ci/c "draw-loa-img") (is-loa/c "draw-loa-img") (is-scene/c "draw-loa-img") (is-scene/c "draw-loa-img")))
-
-
-
-
-
 
 
 
